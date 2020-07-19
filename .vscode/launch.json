@@ -5,10 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Main",
+            "program": "${workspaceFolder}/index.js",
+            "args": ["displayPrecisionEnumSet", "0"],
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Launch Complete",
-            "args": ["complete", "el attributeEnumSet presentValue", "el", "attributeEnumSet", "presentValue"],
+            "args": ["complete", "el args and args", "el", "displayPrecisionEnumSet", "0"],
             "skipFiles": [
                 "<node_internals>/**"
             ],

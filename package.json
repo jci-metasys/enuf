@@ -23,8 +23,10 @@
   "author": "Michael Welch",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "colors": "^1.4.0",
     "lodash": "^4.17.19",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "table": "^5.4.6"
   },
   "devDependencies": {
     "eslint": "^7.5.0"

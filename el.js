@@ -19,7 +19,7 @@ function getTranslations() {
 
 function addIdAndNameToSet(set, key) {
     const [name, id] = key.split(".")
-    return { ...set, id, name }
+    return { ...set, id, name, key }
 }
 
 function getEnums() {
@@ -32,7 +32,7 @@ function getEnums() {
 
     const enumsById = _.mapKeys(enumsByName, set => set.id)
 
-    return { enumsByName, enumsById, enumsByKey }
+    return { enumsByName, enumsById }
 }
 
 function complete([partialSetName, partialMemberName]) {
@@ -88,34 +88,59 @@ function findSet({ enumsByName, enumsById }, setArg) {
 
 function findMember(members, memberArg) {
     if (members[memberArg]) {
-        return [memberArg, members[memberArg]]
+        return memberArg
     }
 
-    return [_.findKey(members, value => value.split(".")[1] === memberArg), memberArg]
+    return _.findKey(members, value => value.split(".")[1] === memberArg)
 }
 
-// function printEnumSet({enumsByName, enumsById}, translations, enumSet) {
-//     console.log(colors.green(colors.bold(`${enumSet.description} (${enumSetName},${enumSet.id})`)))
-//     const data = [
-//         [colors.bold("Name"), colors.bold("Id"), colors.bold("Description")],
-//     ]
+const tableConfig = {
+    columns: {
+        0: {
+        },
+        1: {
+            alignment: "right"
+        },
+        2: {
+            width: 25,
+            wrapWord: true
+        }
+    }
+}
 
-//     const members = _.chain(enumSet.members)
-//         .toPairs()
-//         .map(pair => [`${enumSetName}.${pair[0]}`, pair[1].id, pair[1].description])
-//         .sortBy(triple => triple[1])
-//         .value()
+function createTableHeader(enumSetId, enumSetName, enumSetDescription) {
+    return [
+        [colors.bold("Name"), colors.bold("Id"), colors.bold("Description")],
+        [colors.brightBlue(enumSetName), colors.brightBlue(enumSetId), colors.brightBlue(enumSetDescription)],
+    ]
+}
 
-//     members.forEach(member => data.push(member))
 
-//     const output = table(data)
-//     console.log(output)
-// }
+function printEnumMember(translations, enumSet, memberId) {
+    const data = createTableHeader(enumSet.id, enumSet.name, translations[enumSet.key].title)
+
+    data.push([enumSet.members[memberId], memberId, translations[enumSet.key].oneOf[memberId]])
+    const output = table(data, tableConfig)
+    console.log(output)
+}
+
+function printEnumSet(translations, enumSet) {
+    const data = createTableHeader(enumSet.id, enumSet.name, translations[enumSet.key].title)
+
+    const members = _.chain(enumSet.members)
+        .toPairs()
+        .map(pair => [`${pair[1]}`, pair[0], translations[enumSet.key].oneOf[pair[0]]])
+        .sortBy(triple => triple[1])
+        .value()
+
+    members.forEach(member => data.push(member))
+
+    const output = table(data, tableConfig)
+    console.log(output)
+}
 
 function main([setArg, memberArg]) {
-    if (process.stdout.isTTY) {
-        colors.enable()
-    } else {
+    if (!process.stdout.isTTY) {
         // output is going to a file, disable color markers
         colors.disable()
     }
@@ -124,18 +149,23 @@ function main([setArg, memberArg]) {
 
         const enums = getEnums()
 
-        // const {setName, setKey, set} = findSet(setArg, enums)
-        // if (set) {
-        //     const translations = getTranslations()
-        //     if (memberArg) {
-        //         const [memberId, memberShortName] = findMember(set.members, memberArg)
-        //     } else {
-        //         printEnumSet(enums, translations, set)
-        //     }
+        const set = findSet(enums, setArg)
+        if (set) {
+            const translations = getTranslations()
+            if (memberArg || memberArg === 0) {
+                const memberId = findMember(set.members, memberArg)
+                if (memberId || memberId === 0) {
+                    printEnumMember(translations, set, memberId)
+                } else {
+                    console.error(`Set '${setArg}' has no member '${memberArg}'`)
+                }
+            } else {
+                printEnumSet(translations, set)
+            }
 
-        // } else {
-        //     console.error("Set `${setArg}` not found")
-        // }
+        } else {
+            console.error(`Set '${setArg}' not found`)
+        }
     }
 }
 
