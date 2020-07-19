@@ -79,20 +79,25 @@ function complete([partialSetName, partialMemberName]) {
 
 function findSet({ enumsByName, enumsById }, setArg) {
 
-    var set = enumsByName[setArg]
+    if (_.isNumber(setArg)) {
+        return enumsById[setArg]
+    }
+
+    var set = _.find(enumsByName, (set, name) => name.toLowerCase() === setArg.toLowerCase())
     if (set) {
         return set
     }
 
-    return enumsById[setArg]
+
 }
 
 function findMember(members, memberArg) {
-    if (members[memberArg]) {
+
+    if (_.isNumber(memberArg) && members[memberArg]) {
         return memberArg
     }
 
-    return _.findKey(members, value => value.split(".")[1] === memberArg)
+    return _.findKey(members, value => value.split(".")[1].toLowerCase() === memberArg.toLowerCase())
 }
 
 const tableConfig = {
