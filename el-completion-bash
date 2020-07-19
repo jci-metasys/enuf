@@ -1,0 +1,8 @@
+
+function _el() {
+  #COMPREPLY='attributeEnumSet'
+  COMPREPLY=($(el complete "$COMP_LINE" $COMP_LINE));
+}
+
+#alias el=$HOME/repos/el/index.js
+complete -F _el el

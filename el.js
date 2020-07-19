@@ -1,4 +1,3 @@
-const { promisify } = require("util")
 const fs = require("fs")
 const _ = require("lodash")
 const path = require("path")
@@ -9,53 +8,47 @@ const path = require("path")
 const installDir = path.dirname(process.argv[1])
 const enumsFile = path.join(installDir, "data", "enums.json")
 
-function complete(args) {
+function complete([partialSetName, partialMemberName]) {
     const allEnums = JSON.parse(fs.readFileSync(enumsFile, { encoding: "utf-8" }))
     const setKeys = _.keys(allEnums)
     const setNames = _.map(setKeys, setKey => setKey.split(".")[0])
 
     const namesToKeys = _.zipObject(setNames, setKeys)
 
-    switch (args.length) {
-    case 0:
+    if (!partialSetName && !partialMemberName) {
         return setNames
+    }
 
-    case 1: {
-        const partialSetName = args[0]
-        const matches = _.filter(
+    if (partialSetName) {
+        const setMatches = _.filter(
             setNames,
             setName => _.startsWith(setName, partialSetName),
         )
 
-        if (matches.length === 1 && matches[0] === partialSetName) {
-            const setKey = namesToKeys[partialSetName]
+        if (!partialMemberName) {
+            if (setMatches.length === 1 && setMatches[0] === partialSetName) {
+                const setKey = namesToKeys[partialSetName]
 
-            const { members } = allEnums[setKey]
+                const { members } = allEnums[setKey]
 
-            return _.map(_.values(members), memberKey => memberKey.split(".")[1])
+                return _.map(_.values(members), memberKey => memberKey.split(".")[1])
+            }
+            return setMatches
+        } else {
+            const setName = partialSetName
+            const setKey = namesToKeys[setName]
+            const memberNames = _.map(_.values(allEnums[setKey].members),
+                memberKey => memberKey.split(".")[1])
+
+            const matches = _.filter(memberNames,
+                memberName => _.startsWith(memberName, partialMemberName),
+            )
+
+            if (matches.length === 1 && matches[0] === partialMemberName) {
+                return []
+            }
+            return matches
         }
-        return matches
-    }
-
-    case 2: {
-        const setKey = namesToKeys[args[0]]
-        const partialMemberName = args[1]
-
-        const memberNames = _.map(_.values(allEnums[setKey].members),
-            memberKey => memberKey.split(".")[1])
-
-        const matches = _.filter(memberNames,
-            memberName => _.startsWith(memberName, partialMemberName),
-        )
-
-        if (matches.length === 1 && matches[0] === partialMemberName) {
-            return []
-        }
-        return matches
-    }
-
-    default:
-        return []
     }
 }
 
