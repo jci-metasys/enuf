@@ -21,5 +21,9 @@
     "dictionary"
   ],
   "author": "Michael Welch",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.5.0"
+  }
 }
