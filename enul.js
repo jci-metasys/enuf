@@ -3,7 +3,6 @@ const colors = require("colors/safe")
 const path = require("path")
 const _ = require("lodash")
 const { table } = require("table")
-const { set } = require("lodash")
 
 
 /* global process */
@@ -129,10 +128,11 @@ function printEnumMember(translations, enumSet, memberId) {
 function printEnumSet(translations, enumSet) {
     const data = createTableHeader(enumSet.id, enumSet.name, translations[enumSet.key].title)
 
+
     const members = _.chain(enumSet.members)
         .toPairs()
         .map(pair => [`${pair[1]}`, pair[0], translations[enumSet.key].oneOf[pair[0]]])
-        .sortBy(triple => triple[1])
+        .sortBy(triple => parseInt(triple[1], 10))
         .value()
 
     members.forEach(member => data.push(member))
