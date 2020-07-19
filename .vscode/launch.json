@@ -7,7 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch Complete",
+            "args": ["complete", "el", "attributeEnumSet", "presentValue"],
             "skipFiles": [
                 "<node_internals>/**"
             ],

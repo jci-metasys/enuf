@@ -22,7 +22,10 @@
   ],
   "author": "Michael Welch",
   "license": "BSD-3-Clause",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.19",
+    "minimist": "^1.2.5"
+  },
   "devDependencies": {
     "eslint": "^7.5.0"
   }
