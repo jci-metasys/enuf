@@ -1,6 +1,6 @@
 {
   "name": "el",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "A command line too to query Metasys enums",
   "main": "index.js",
   "bin": {

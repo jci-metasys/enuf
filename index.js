@@ -31,7 +31,6 @@ const { complete, main } = require("./el.js")
 
 const userArgs = parseArgs(process.argv.slice(2), {})
 
-
 if (userArgs._[0] && userArgs._[0] === "complete") {
     console.log(_.join(complete(userArgs._.slice(3)), " "))
 } else {

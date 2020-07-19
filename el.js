@@ -9,7 +9,9 @@ const { set } = require("lodash")
 /* global process */
 /* eslint-disable no-console */
 
-const installDir = path.dirname(process.argv[1])
+const executable = process.argv[1]
+const installDir = path.dirname(fs.realpathSync(executable))
+
 const enumsFile = path.join(installDir, "data", "enums.json")
 const translationsFile = path.join(installDir, "data", "translations.json")
 
