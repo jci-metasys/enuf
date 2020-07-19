@@ -1,23 +1,23 @@
 {
-  "name": "el",
-  "version": "0.1.1",
-  "description": "A command line too to query Metasys enums",
+  "name": "enul",
+  "version": "0.1.6",
+  "description": "A command line tool for querying Metasys enums",
   "main": "index.js",
   "bin": {
-    "el": "./index.js"
+    "enul": "./index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.jci.com/cwelchmi/el.git"
+    "url": "https://github.jci.com/cwelchmi/enul.git"
   },
   "keywords": [
     "enums",
     "enum",
     "lookup",
-    "el",
+    "enul",
     "dictionary"
   ],
   "author": "Michael Welch",

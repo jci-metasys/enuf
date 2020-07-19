@@ -1,2 +1,6 @@
-# el
-Command line tool for querying Metasys enums
+# enul - Enum Lookup
+
+A command line tool for querying Metasys enums
+
+## Installation
+

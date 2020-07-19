@@ -1,28 +1,28 @@
 #!/usr/bin/env node
 const parseArgs = require("minimist")
 const _ = require("lodash")
-const { complete, main } = require("./el.js")
+const { complete, main } = require("./enul.js")
 
 /* global process */
 
-// Assuming this is the input el attr<tab><tab>
+// Assuming this is the input enul attr<tab><tab>
 
-// The arguments to this script when invoked by el-completion.bash
+// The arguments to this script when invoked by enul-completion.bash
 // [0] /Users/cwelchmi/.nvm/versions/node/v10.15.2/bin/node
-// [1] /Users/cwelchmi/repos/enums/el.js
+// [1] /Users/cwelchmi/repos/enums/enul.js
 // [2] complete
-// [3] 'el attr'
-// [4] el
+// [3] 'enul attr'
+// [4] enul
 // [5] attr
 
-// Assuming this is the input el attr  <tab><tab>
+// Assuming this is the input enul attr  <tab><tab>
 
-// The arguments to this script when invoked by el-completion.bash
+// The arguments to this script when invoked by enul-completion.bash
 // [0] /Users/cwelchmi/.nvm/versions/node/v10.15.2/bin/node
-// [1] /Users/cwelchmi/repos/enums/el.js
+// [1] /Users/cwelchmi/repos/enums/enul.js
 // [2] complete
-// [3] 'el attr  '
-// [4] el
+// [3] 'enul attr  '
+// [4] enul
 // [5] attr
 
 // this way we can detect spaces after one of our arguments
