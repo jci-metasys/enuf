@@ -1,81 +1,10 @@
-const fs = require("fs")
 const colors = require("colors/safe")
-const path = require("path")
 const _ = require("lodash")
 const { table } = require("table")
-
+const { getTranslations, getEnums } = require("./data")
 
 /* global process */
 /* eslint-disable no-console */
-
-const executable = process.argv[1]
-const installDir = path.dirname(fs.realpathSync(executable))
-
-const enumsFile = path.join(installDir, "data", "enums.json")
-const translationsFile = path.join(installDir, "data", "translations.json")
-
-function getTranslations() {
-    return JSON.parse(fs.readFileSync(translationsFile, { encoding: "utf8" }))
-}
-
-function addIdAndNameToSet(set, key) {
-    const [name, id] = key.split(".")
-    return { ...set, id, name, key }
-}
-
-function getEnums() {
-    const enumsByKey = JSON.parse(fs.readFileSync(enumsFile, { encoding: "utf8" }))
-
-    const enumsByName = _.chain(enumsByKey)
-        .mapValues(addIdAndNameToSet)
-        .mapKeys(set => set.name)
-        .value()
-
-    const enumsById = _.mapKeys(enumsByName, set => set.id)
-
-    return { enumsByName, enumsById }
-}
-
-function complete([partialSetName, partialMemberName]) {
-
-    const { enumsByName } = getEnums()
-
-    if (!partialSetName && !partialMemberName) {
-        return _.keys(enumsByName)
-    }
-
-    if (partialSetName) {
-        const setMatches = _.filter(
-            _.keys(enumsByName),
-            setName => _.startsWith(_.toLower(setName), _.toLower(partialSetName)),
-        )
-
-        if (!partialMemberName) {
-            if (setMatches.length === 1 && _.toLower(setMatches[0]) === _.toLower(partialSetName)) {
-                const setName = setMatches[0]
-
-                const { members } = enumsByName[setName]
-
-                return _.map(_.values(members), memberKey => memberKey.split(".")[1])
-            }
-            return setMatches
-        } else {
-            const setName = setMatches[0]
-
-            const memberNames = _.map(_.values(enumsByName[setName].members),
-                memberKey => memberKey.split(".")[1])
-
-            const matches = _.filter(memberNames,
-                memberName => _.startsWith(_.toLower(memberName), _.toLower(partialMemberName)),
-            )
-
-            if (matches.length === 1 && _.toLower(matches[0]) === _.toLower(partialMemberName)) {
-                return []
-            }
-            return matches
-        }
-    }
-}
 
 function findSet({ enumsByName, enumsById }, setArg) {
 
@@ -146,7 +75,7 @@ function printEnumSet(translations, enumSet) {
     console.log(output)
 }
 
-function main([setArg, memberArg]) {
+function search([setArg, memberArg]) {
     if (!process.stdout.isTTY) {
         // output is going to a file, disable color markers
         colors.disable()
@@ -176,4 +105,4 @@ function main([setArg, memberArg]) {
     }
 }
 
-module.exports = { main, complete }
+module.exports = { search }

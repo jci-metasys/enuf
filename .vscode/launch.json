@@ -18,7 +18,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Complete",
-            "args": ["complete", "enul args and args", "enul", "displayPrecisionEnumSet", "0"],
+            "args": ["complete", "enul", "search", "displayPrecisionEnumSet", "0"],
             "skipFiles": [
                 "<node_internals>/**"
             ],
