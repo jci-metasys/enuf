@@ -23,7 +23,7 @@ const command = userArgs._[0]
 
 switch (command) {
     case "complete":
-        console.log(_.join(complete(userArgs._.slice(3)), " "))
+        console.log(_.join(complete(userArgs._.slice(2)), " "))
         break
 
     case "search":
