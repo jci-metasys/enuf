@@ -4,7 +4,7 @@ const _ = require("lodash")
 function startsWithMatcher(searchPattern, value, options) {
     const caseSensitive = !options || _.isUndefined(options.caseSensitive) ? true : false
     const searchFor = caseSensitive ? searchPattern : _.toLower(searchPattern)
-    const searched = caseSensitive ? value : _ .toLower(value)
+    const searched = caseSensitive ? value : _.toLower(value)
 
     return _.startsWith(searched, searchFor)
 }
@@ -25,90 +25,88 @@ function completeCommands(partialCommand) {
  * The input args are
  * @param {} args
  */
-function complete([line, cursorPosition, ...args]) {
+function complete([cursorWordPosition, ...args]) {
     // At this level these are the options
-    // 1. No args passed (then return all commands)
-    // 2. A partial command is entered (then return matches)
-    // 3. A full command is entered then do completions for that command
+    // 2. Argument Matching
+    //    a. no chars for next argument (return all choices for this argument)
+    //    a. it's been started, but not completed (return all matches for this argument)
+    //    b. it's been finished, no space after has been entered, (return single match)
+    //    c. it's been finished, at least one space after: go to Argument Matching and match next argument
 
-    //console.error(`line length: ${line.length}, cursor: ${cursorPosition}`)
+
+    // We only attempt to auto-complete the last argument (if cursor is on it),
+    // or the next argument if cursor is on a space after all other arguments
 
 
-    if (args.length === 0) {
-        return completeCommands()
-    } else if (args.length >= 1) {
-        const partialCommand = args[0]
-        const commands = completeCommands(partialCommand)
-        if (commands.length === 1 && commands[0] === partialCommand) {
-            const command = partialCommand
-            if (command === "search") {
-                return completeSearchArgs(line, cursorPosition, args.slice(1))
-            } else {
-                return []
+    //console.error(`word pos: ${cursorWordPosition}, searching for next arg: ${searchForNextArgument}, ${args}`)
+
+
+    //console.error(`word: ${cursorWordPosition}, args: '${args}'`)
+
+
+    // Handle first argument (the command argument)
+    const commandArg = args[0]
+
+    switch (cursorWordPosition) {
+        case 1: // still on command
+            return completeCommands(commandArg)
+
+        case 2: // First argument of command
+            switch (commandArg) {
+                case "search":
+                    return completeSearchForSet(args[1])
+                default:
+                    return []
             }
-        } else {
-            return commands
-        }
+
+        case 3: // Second argument of command
+            switch (commandArg) {
+                case "search":
+                    return completeSearchForMember(args[1], args[2])
+
+                default:
+                    return []
+            }
     }
 }
 
-function completeSearchMembers(enumsByName, setName, partialMemberName) {
-    console.log("searching")
-    const memberNames = _.map(_.values(enumsByName[setName].members),
-        memberKey => memberKey.split(".")[1])
-
-    const noFilter = _.isUndefined(partialMemberName)
-
-    const matches = _.filter(memberNames,
-        memberName =>  noFilter || _.startsWith(_.toLower(memberName), _.toLower(partialMemberName)),
-    )
-
-    if (matches.length === 1 && _.toLower(matches[0]) === _.toLower(partialMemberName)) {
-        return []
-    }
-    return matches
-}
-
-
-function completeSearchArgs(line, cursorPosition, [partialSetName, partialMemberName]) {
+function completeSearchForMember(setArg, partialMemberName) {
 
     const { enumsByName, enumsById } = getEnums()
 
-    if (_.isUndefined(partialSetName) && _.isUndefined(partialMemberName)) {
+    const enumSet = enumsByName[setArg] || enumsById[setArg]
+
+    if (!enumSet) {
+        return []
+    }
+
+    const memberNames = _.map(_.values(enumSet.members),
+        memberKey => memberKey.split(".")[1])
+
+    if (_.isUndefined(partialMemberName)) {
+        return memberNames
+    }
+
+    return _.filter(memberNames,
+        memberName => _.startsWith(memberName, partialMemberName),
+    )
+}
+
+
+function completeSearchForSet(partialSetName) {
+    //.error(`search for set ${partialSetName}`)
+    const { enumsByName, enumsById } = getEnums()
+
+    if (_.isUndefined(partialSetName)) {
         return _.keys(enumsByName)
     }
 
-    if (!_.isUndefined(partialSetName)) {
-
-        const setMatches = _.isNumber(partialSetName)
-            ? enumsById[partialSetName] ? [enumsById[partialSetName].name] : []
-            : _.filter(
-                _.keys(enumsByName),
-                setName => _.startsWith(_.toLower(setName), _.toLower(partialSetName)),
-            )
-
-        if (_.isUndefined(partialMemberName)) {
-            if (setMatches.length === 1 &&
-                (_.isNumber(partialSetName) || (_.toLower(setMatches[0]) === _.toLower(partialSetName)))) {
-                const setName = setMatches[0]
-                // only do this step if there is a space at current cursor
-                const whiteSpace = new RegExp(/\s/)
-                if (whiteSpace.test(line[cursorPosition-1])) {
-                    return completeSearchMembers(enumsByName, setName, partialMemberName)
-                } else {
-                    return []
-                }
-            }
-            return setMatches
-        } else {
-            if (setMatches.length > 1) {
-                return []
-            }
-            const setName = setMatches[0]
-
-            return completeSearchMembers(enumsByName, setName, partialMemberName)
-        }
-    }
+    return _.isNumber(partialSetName)
+        ? enumsById[partialSetName] ? [enumsById[partialSetName].name] : []
+        : _.filter(
+            _.keys(enumsByName),
+            setName => _.startsWith(_.toLower(setName), _.toLower(partialSetName)),
+        )
 }
 
 module.exports = { complete }
