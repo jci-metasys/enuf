@@ -83,7 +83,7 @@ function findSet({ enumsByName, enumsById }, setArg) {
         return enumsById[setArg]
     }
 
-    var set = _.find(enumsByName, (set, name) => name.toLowerCase() === setArg.toLowerCase())
+    var set = _.find(enumsByName, (set, name) => name.toLowerCase() === _.toLower(setArg))
     if (set) {
         return set
     }
@@ -97,7 +97,7 @@ function findMember(members, memberArg) {
         return memberArg
     }
 
-    return _.findKey(members, value => value.split(".")[1].toLowerCase() === memberArg.toLowerCase())
+    return _.findKey(members, value => value.split(".")[1].toLowerCase() === _.toLower(memberArg))
 }
 
 const tableConfig = {
