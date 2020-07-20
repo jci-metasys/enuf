@@ -19,6 +19,8 @@ const { complete } = require("./enul-complete.js")
 
 const userArgs = parseArgs(process.argv.slice(2), {})
 
+console.error(userArgs)
+
 const command = userArgs._[0]
 
 switch (command) {
