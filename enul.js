@@ -47,12 +47,12 @@ function complete([partialSetName, partialMemberName]) {
     if (partialSetName) {
         const setMatches = _.filter(
             _.keys(enumsByName),
-            setName => _.startsWith(setName, partialSetName),
+            setName => _.startsWith(_.toLower(setName), _.toLower(partialSetName)),
         )
 
         if (!partialMemberName) {
-            if (setMatches.length === 1 && setMatches[0] === partialSetName) {
-                const setName = partialSetName
+            if (setMatches.length === 1 && _.toLower(setMatches[0]) === _.toLower(partialSetName)) {
+                const setName = setMatches[0]
 
                 const { members } = enumsByName[setName]
 
@@ -60,16 +60,16 @@ function complete([partialSetName, partialMemberName]) {
             }
             return setMatches
         } else {
-            const setName = partialSetName
+            const setName = setMatches[0]
 
             const memberNames = _.map(_.values(enumsByName[setName].members),
                 memberKey => memberKey.split(".")[1])
 
             const matches = _.filter(memberNames,
-                memberName => _.startsWith(memberName, partialMemberName),
+                memberName => _.startsWith(_.toLower(memberName), _.toLower(partialMemberName)),
             )
 
-            if (matches.length === 1 && matches[0] === partialMemberName) {
+            if (matches.length === 1 && _.toLower(matches[0]) === _.toLower(partialMemberName)) {
                 return []
             }
             return matches

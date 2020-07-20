@@ -164,3 +164,45 @@ Finally I enter in the id I'm looking for
 ```
 
 Then when I hit return I get a table with the results. After the header row, the next row always includes information about the set itself. Then the next line includes the member I was looking for.
+
+## Case Sensitivity
+
+The application is case insensitive. So the following works
+
+```bash
+> enul ATTRIBUTEENUMSET PRESENTVALUE
+╔═══════════════════════════════╤═════╤═══════════════════════════╗
+║ Name                          │  Id │ Description               ║
+╟───────────────────────────────┼─────┼───────────────────────────╢
+║ attributeEnumSet              │ 509 │ Attribute                 ║
+╟───────────────────────────────┼─────┼───────────────────────────╢
+║ attributeEnumSet.presentValue │  85 │ Present Value             ║
+╚═══════════════════════════════╧═════╧═══════════════════════════╝
+```
+
+However, case sensitivity for auto-completions is trickier. If you use bash you can enable case-insensitive completions by adding the following link to your `~/.inputrc` file:
+
+```bash
+set completion-ignore-case On
+```
+
+Then the following works:
+
+```bash
+> enul AT<tab><tab>
+```
+
+Turns into
+
+```bash
+>enul at
+```
+
+And pressing `<tab>` again shows this
+
+```bash
+>enul at
+atcFddFaultsEnumSet  atcZncStatesEnumSet  attributeCategoryEnumSet  attributeEnumSet
+```
+
+If you use zsh like I do, you're out of luck for now. Just always start your searches with lower case and you'll be fine.
