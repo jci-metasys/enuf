@@ -152,7 +152,7 @@ function main([setArg, memberArg]) {
         colors.disable()
     }
 
-    if (setArg) {
+    if (setArg || setArg === 0) {
 
         const enums = getEnums()
 
