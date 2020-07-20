@@ -103,6 +103,7 @@ Finally, if all I know about an enum member is the set id and member id I can us
 
 ## Configuring Completions
 
+### Bash
 That's all great but typing all of those names gets tedious. This is where auto-completions come in to play. Unfortunately they are not configured out of the box. But it doesn't take much to configure them and once you do you can use the tab key to assist you.
 
 To do that copy the completions file `enul-completions-bash` to a location in hour $HOME directory. I created a new directory in my home directory called `.completions`.
@@ -122,6 +123,26 @@ source $HOME/.completions/enul-completions.bash
 ```
 
 Now every time you start a new shell the completions will be loaded for `enul`.
+
+### ZSH
+
+Follow the instructions for creating the `enul-completions.bash` file from previous section and put it in the `.completions` directory.
+
+Then in your `.oh-my-zsh/oh-my-zsh.sh` file find this line
+
+```zsh
+autoload -U compaudit compinit
+```
+
+Add the following lines right after it
+
+```zsh
+autoload -U +X bashcompinit && bashcompinit
+# Make sure enul completions are loaded
+source $HOME/.completions/enul-completion.bash
+```
+
+
 
 ## Example Usage of Completions
 
