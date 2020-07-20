@@ -12,22 +12,25 @@ const { complete } = require("./enul-complete.js")
 // [0] /Users/cwelchmi/.nvm/versions/node/v10.15.2/bin/node
 // [1] /Users/cwelchmi/repos/enums/enul.js
 // [2] complete
-// [4] enul
-// [5] search
-// [6] attr
+// [3] {whole line}
+// [4] {cursor position}
+// [5] enul
+// [6] search
+// [7] attr
 
 
 const userArgs = parseArgs(process.argv.slice(2), {})
 
-console.error(userArgs)
+//console.error(userArgs)
 
 const command = userArgs._[0]
 
 switch (command) {
-    case "complete":
-        console.log(_.join(complete(userArgs._.slice(2)), " "))
+    case "complete": {
+        const completeArgs = _.concat(userArgs._.slice(1,3), userArgs._.slice(4))
+        console.log(_.join(complete(completeArgs), " "))
         break
-
+    }
     case "search":
         search(userArgs._.slice(1))
         break

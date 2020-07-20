@@ -13,7 +13,7 @@ function completeCommands(partialCommand) {
 
     const commands = ["help", "search"]
 
-    if (partialCommand) {
+    if (!_.isUndefined(partialCommand)) {
         const matches = _.filter(commands, command => startsWithMatcher(partialCommand, command))
         return matches
     }
@@ -21,11 +21,18 @@ function completeCommands(partialCommand) {
     return commands
 }
 
-function complete(args) {
+/**
+ * The input args are
+ * @param {} args
+ */
+function complete([line, cursorPosition, ...args]) {
     // At this level these are the options
     // 1. No args passed (then return all commands)
     // 2. A partial command is entered (then return matches)
     // 3. A full command is entered then do completions for that command
+
+    //console.error(`line length: ${line.length}, cursor: ${cursorPosition}`)
+
 
     if (args.length === 0) {
         return completeCommands()
@@ -35,7 +42,7 @@ function complete(args) {
         if (commands.length === 1 && commands[0] === partialCommand) {
             const command = partialCommand
             if (command === "search") {
-                return completeSearchArgs(args.slice(1))
+                return completeSearchArgs(line, cursorPosition, args.slice(1))
             } else {
                 return []
             }
@@ -46,7 +53,7 @@ function complete(args) {
 }
 
 function completeSearchMembers(enumsByName, setName, partialMemberName) {
-
+    console.log("searching")
     const memberNames = _.map(_.values(enumsByName[setName].members),
         memberKey => memberKey.split(".")[1])
 
@@ -63,7 +70,7 @@ function completeSearchMembers(enumsByName, setName, partialMemberName) {
 }
 
 
-function completeSearchArgs([partialSetName, partialMemberName]) {
+function completeSearchArgs(line, cursorPosition, [partialSetName, partialMemberName]) {
 
     const { enumsByName, enumsById } = getEnums()
 
@@ -84,8 +91,13 @@ function completeSearchArgs([partialSetName, partialMemberName]) {
             if (setMatches.length === 1 &&
                 (_.isNumber(partialSetName) || (_.toLower(setMatches[0]) === _.toLower(partialSetName)))) {
                 const setName = setMatches[0]
-
-                return completeSearchMembers(enumsByName, setName, partialMemberName)
+                // only do this step if there is a space at current cursor
+                const whiteSpace = new RegExp(/\s/)
+                if (whiteSpace.test(line[cursorPosition-1])) {
+                    return completeSearchMembers(enumsByName, setName, partialMemberName)
+                } else {
+                    return []
+                }
             }
             return setMatches
         } else {
@@ -93,6 +105,7 @@ function completeSearchArgs([partialSetName, partialMemberName]) {
                 return []
             }
             const setName = setMatches[0]
+
             return completeSearchMembers(enumsByName, setName, partialMemberName)
         }
     }
