@@ -1,7 +1,7 @@
 
 function _enul() {
   #COMPREPLY='attributeEnumSet'
-  COMPREPLY=($(enul complete "$COMP_LINE" $COMP_LINE));
+  COMPREPLY=($(enul complete $COMP_LINE));
 }
 
 #alias enul=$HOME/repos/enul/index.js
