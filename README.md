@@ -2,6 +2,8 @@
 
 A command line tool for querying Metasys enums. It features auto-completions to make searching quicker with less typing.
 
+![screen capture of enul](enul-min.gif)
+
 ## Prerequisites
 
 * node and npm
@@ -74,7 +76,7 @@ Next I want to find out what member `5` of the `unitEnumSet` is
 ╚═══════════════════╧═════╧═══════════════════════════╝
 ```
 
-Now I want to find the `voltampers` entry in the same set.
+Now I want to find the `voltAmpereHours` entry in the same set.
 
 ```bash
 > enul unitEnumSet voltAmpereHours
@@ -106,7 +108,7 @@ Finally, if all I know about an enum member is the set id and member id I can us
 ### Bash
 That's all great but typing all of those names gets tedious. This is where auto-completions come in to play. Unfortunately they are not configured out of the box. But it doesn't take much to configure them and once you do you can use the tab key to assist you.
 
-To do that copy the completions file `enul-completions-bash` to a location in hour $HOME directory. I created a new directory in my home directory called `.completions`.
+To do that copy the completions file `enul-completion-bash` to a location in hour $HOME directory. I created a new directory in my home directory called `.completions`.
 
 ```bash
 > cd
@@ -114,19 +116,19 @@ To do that copy the completions file `enul-completions-bash` to a location in ho
 > chdir .completions
 ```
 
-The file `enul-completions.bash` is stored somewhere in your `node.js` configuration files. The easiest way to get it is to just grab it from the repo [here](https://github.jci.com/cwelchmi/enul/blob/main/enul-completion-bash). You can copy and paste the contents of that file into a new file. Save it to the directory you just created with the name `enul-completion.bash`.
+The file `enul-completion.bash` is stored somewhere in your `node.js` configuration files. The easiest way to get it is to just grab it from the repo [here](https://github.jci.com/cwelchmi/enul/blob/main/enul-completion.bash). You can copy and paste the contents of that file into a new file. Save it to the directory you just created with the name `enul-completion.bash`.
 
 Finally edit your `.bashrc` file and add this line at the end. (This should be in your home directory. If it isn't it's safe to create it. If you are using `.profile` instead of `.bashrc` you can add the line there instead)
 
 ```bash
-source $HOME/.completions/enul-completions.bash
+source $HOME/.completions/enul-completion.bash
 ```
 
 Now every time you start a new shell the completions will be loaded for `enul`.
 
 ### ZSH
 
-Follow the instructions for creating the `enul-completions.bash` file from previous section and put it in the `.completions` directory.
+Follow the instructions for creating the `enul-completion.bash` file from previous section and put it in the `.completions` directory.
 
 Then in your `.oh-my-zsh/oh-my-zsh.sh` file find this line
 
@@ -159,7 +161,7 @@ After this my screen updated to this
 attributeCategoryEnumSet  attributeEnumSet
 ```
 
-Next I typed `E`:
+Next I typed `E<tab>`:
 
 ```bash
 > enul attributeE<tab>
