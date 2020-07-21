@@ -1,6 +1,6 @@
 const colors = require("colors/safe")
 const _ = require("lodash")
-const { table } = require("table")
+const { table, getBorderCharacters } = require("table")
 const { getTranslations, getEnums } = require("./data")
 
 /* global process */
@@ -30,6 +30,14 @@ function findMember(members, memberArg) {
 }
 
 const tableConfig = {
+    border: getBorderCharacters("void"),
+    columnDefault: {
+        paddingLeft: 0,
+        paddingRight: 3
+    },
+    drawHorizontalLine: () => {
+        return false
+    },
     columns: {
         0: {
         },
@@ -42,6 +50,20 @@ const tableConfig = {
         }
     }
 }
+
+/*
+
+{
+    border: getBorderCharacters(`void`),
+    columnDefault: {
+        paddingLeft: 0,
+        paddingRight: 1
+    },
+    drawHorizontalLine: () => {
+        return false
+    }
+
+    */
 
 function createTableHeader(enumSetName, enumSetId, enumSetDescription) {
     return [
