@@ -37,8 +37,10 @@ switch (command) {
         console.log(complete(completeArgs), " ")
         break
     }
+
+    case "SEARCH":
     case "search":
-        search(userArgs._.slice(1))
+        search(userArgs._.slice(1), { useOriginal: (command === "SEARCH") })
         break
 
     case "help":

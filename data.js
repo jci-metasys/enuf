@@ -9,13 +9,18 @@ const installDir = path.dirname(fs.realpathSync(executable))
 
 const enumsFile = path.join(installDir, "data", "enums.json")
 const enumNamesFile = path.join(installDir, "data", "enum-names.txt")
-const originalEnumsFile = path.join(installDir, "data", "original-enums.json")
-const originalEnumNamesFile = path.join(installDir, "data", "original-enum-names.txt")
 const enumIdsFile = path.join(installDir, "data", "enum-ids.txt")
 const translationsFile = path.join(installDir, "data", "translations.json")
 
-function getTranslations() {
-    return JSON.parse(fs.readFileSync(translationsFile, { encoding: "utf8" }))
+const originalEnumsFile = path.join(installDir, "data", "original-enums.json")
+const originalEnumNamesFile = path.join(installDir, "data", "original-enum-names.txt")
+const originalTranslationsFile = path.join(installDir, "data", "original-translations.json")
+
+function getTranslations(useOriginal = false) {
+
+    const translationsFileToRead = useOriginal ? originalTranslationsFile : translationsFile
+
+    return JSON.parse(fs.readFileSync(translationsFileToRead, { encoding: "utf8" }))
 }
 
 function addIdAndNameToSet(set, key) {

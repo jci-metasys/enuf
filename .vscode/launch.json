@@ -7,7 +7,7 @@
         {
             "name": "Launch Main",
             "program": "${workspaceFolder}/index.js",
-            "args": ["displayPrecisionEnumSet", "0"],
+            "args": ["SEARCH", "WRITE_PRIORITY_ENUM_SET"],
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"

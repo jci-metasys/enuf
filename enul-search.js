@@ -43,7 +43,7 @@ const tableConfig = {
     }
 }
 
-function createTableHeader(enumSetId, enumSetName, enumSetDescription) {
+function createTableHeader(enumSetName, enumSetId, enumSetDescription) {
     return [
         [colors.bold("Name"), colors.bold("Id"), colors.bold("Description")],
         [colors.brightBlue(enumSetName), colors.brightBlue(enumSetId), colors.brightBlue(enumSetDescription)],
@@ -52,7 +52,7 @@ function createTableHeader(enumSetId, enumSetName, enumSetDescription) {
 
 
 function printEnumMember(translations, enumSet, memberId) {
-    const data = createTableHeader(enumSet.id, enumSet.name, translations[enumSet.key].title)
+    const data = createTableHeader(enumSet.name, enumSet.id, translations[enumSet.key].title)
 
     data.push([enumSet.members[memberId], memberId, translations[enumSet.key].oneOf[memberId]])
     const output = table(data, tableConfig)
@@ -60,7 +60,7 @@ function printEnumMember(translations, enumSet, memberId) {
 }
 
 function printEnumSet(translations, enumSet) {
-    const data = createTableHeader(enumSet.id, enumSet.name, translations[enumSet.key].title)
+    const data = createTableHeader(enumSet.name, enumSet.id, translations[enumSet.key].title)
 
 
     const members = _.chain(enumSet.members)
@@ -75,7 +75,7 @@ function printEnumSet(translations, enumSet) {
     console.log(output)
 }
 
-function search([setArg, memberArg]) {
+function search([setArg, memberArg], { useOriginal }) {
     if (!process.stdout.isTTY) {
         // output is going to a file, disable color markers
         colors.disable()
@@ -83,11 +83,11 @@ function search([setArg, memberArg]) {
 
     if (setArg || setArg === 0) {
 
-        const enums = getEnums()
+        const enums = getEnums(useOriginal)
 
         const set = findSet(enums, setArg)
         if (set) {
-            const translations = getTranslations()
+            const translations = getTranslations(useOriginal)
             if (memberArg || memberArg === 0) {
                 const memberId = findMember(set.members, memberArg)
                 if (memberId || memberId === 0) {
