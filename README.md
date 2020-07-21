@@ -85,24 +85,18 @@ EXAMPLES
     where the SET_ARGUMENT can be an upper case set name or a numeric id. The MEMBER_ARGUMENT is optional. It can be either an upper case member name or a numeric id. If MEMBER_ARGUMENT is missing the entire set is returned, else just the set identifying information along with the specific member is returned.
 ```
 
-
 ### Examples
 
 Let's say I want to see the entire `BACPOLARITY_ENUM_SET`
 
 ```bash
 > enul search bacpolarityEnumSet
-╔═════════════════════════════════════╤════╤═══════════════════════════╗
-║ Name                                │ Id │ Description               ║
-╟─────────────────────────────────────┼────┼───────────────────────────╢
-║ bacpolarityEnumSet                  │  3 │ Normal Reverse            ║
-╟─────────────────────────────────────┼────┼───────────────────────────╢
-║ bacpolarityEnumSet.bacpolrtyNormal  │  0 │ Normal                    ║
-╟─────────────────────────────────────┼────┼───────────────────────────╢
-║ bacpolarityEnumSet.bacpolrtyReverse │  1 │ Reverse                   ║
-╟─────────────────────────────────────┼────┼───────────────────────────╢
-║ bacpolarityEnumSet.bacpolrtyHold    │  2 │ Hold                      ║
-╚═════════════════════════════════════╧════╧═══════════════════════════╝
+
+Name                                  Id   Description
+bacpolarityEnumSet                     3   Normal Reverse
+bacpolarityEnumSet.bacpolrtyNormal     0   Normal
+bacpolarityEnumSet.bacpolrtyReverse    1   Reverse
+bacpolarityEnumSet.bacpolrtyHold       2   Hold
 ```
 
 Notice that the first line after the header row always gives information about the set (it's name, id and description).
@@ -111,40 +105,30 @@ Next I want to find out what member `5` of the `unitEnumSet` is
 
 ```bash
 > enul search unitEnumSet 5
-╔═══════════════════╤═════╤═══════════════════════════╗
-║ Name              │  Id │ Description               ║
-╟───────────────────┼─────┼───────────────────────────╢
-║ unitEnumSet       │ 507 │ Unit                      ║
-╟───────────────────┼─────┼───────────────────────────╢
-║ unitEnumSet.volts │   5 │ V                         ║
-╚═══════════════════╧═════╧═══════════════════════════╝
+
+Name                 Id   Description
+unitEnumSet         507   Unit
+unitEnumSet.volts     5   V
 ```
 
 Now I want to find the `voltAmpereHours` entry in the same set.
 
 ```bash
 > enul search unitEnumSet voltAmpereHours
-╔═════════════════════════════╤═════╤═══════════════════════════╗
-║ Name                        │  Id │ Description               ║
-╟─────────────────────────────┼─────┼───────────────────────────╢
-║ unitEnumSet                 │ 507 │ Unit                      ║
-╟─────────────────────────────┼─────┼───────────────────────────╢
-║ unitEnumSet.voltAmpereHours │ 239 │ VAh                       ║
-╚═════════════════════════════╧═════╧═══════════════════════════╝
+
+Name                           Id   Description
+unitEnumSet                   507   Unit
+unitEnumSet.voltAmpereHours   239   VAh
 ```
 
 Finally, if all I know about an enum member is the set id and member id I can use those as well
 
 ```bash
 > enul search 502 2
-╔════════════════════════════════════════════════════╤═════╤═══════════════════════════╗
-║ Name                                               │  Id │ Description               ║
-╟────────────────────────────────────────────────────┼─────┼───────────────────────────╢
-║ executionPriorityEnumSet                           │ 502 │ Execution                 ║
-║                                                    │     │ Priority                  ║
-╟────────────────────────────────────────────────────┼─────┼───────────────────────────╢
-║ executionPriorityEnumSet.criticalEquipmentPriority │   2 │ Critical                  ║
-╚════════════════════════════════════════════════════╧═════╧═══════════════════════════╝
+Name                                                  Id   Description
+executionPriorityEnumSet                             502   Execution
+                                                           Priority
+executionPriorityEnumSet.criticalEquipmentPriority     2   Critical
 ```
 
 ## Configuring Completions
@@ -250,56 +234,23 @@ The set will auto-complete and advanced the cursor
 Finally I enter in the id I'm looking for
 
 ```bash
-> enul search attributeEnum 3257
-╔══════════════════════════╤══════╤═══════════════════════════╗
-║ Name                     │   Id │ Description               ║
-╟──────────────────────────┼──────┼───────────────────────────╢
-║ attributeEnumSet         │  509 │ Attribute                 ║
-╟──────────────────────────┼──────┼───────────────────────────╢
-║ attributeEnumSet.input61 │ 3257 │ Input61                   ║
-╚══════════════════════════╧══════╧═══════════════════════════╝
+> enul search attributeEnumSet 3257
+
+Name                         Id   Description
+attributeEnumSet            509   Attribute
+attributeEnumSet.input61   3257   Input61
 ```
 
 Then when I hit return I get a table with the results. After the header row, the next row always includes information about the set itself. Then the next line includes the member I was looking for.
 
-## Case Sensitivity
+## Original Upper Case Names
 
-The application is case insensitive. So the following works
-
-```bash
-> enul ATTRIBUTEENUMSET PRESENTVALUE
-╔═══════════════════════════════╤═════╤═══════════════════════════╗
-║ Name                          │  Id │ Description               ║
-╟───────────────────────────────┼─────┼───────────────────────────╢
-║ attributeEnumSet              │ 509 │ Attribute                 ║
-╟───────────────────────────────┼─────┼───────────────────────────╢
-║ attributeEnumSet.presentValue │  85 │ Present Value             ║
-╚═══════════════════════════════╧═════╧═══════════════════════════╝
-```
-
-However, case sensitivity for auto-completions is trickier. If you use bash you can enable case-insensitive completions by adding the following link to your `~/.inputrc` file:
+The application supports searching and returning the original upper case names with the use of the `SEARCH` command.
 
 ```bash
-set completion-ignore-case On
+> enul SEARCH ATTRIBUTE_ENUM_SET PRESENT_VALUE_ATTR
+
+Name                                     Id   Description
+ATTRIBUTE_ENUM_SET                      509   Attribute
+ATTRIBUTE_ENUM_SET.PRESENT_VALUE_ATTR    85   Present Value
 ```
-
-Then the following works:
-
-```bash
-> enul search AT<tab><tab>
-```
-
-Turns into
-
-```bash
->enul search at
-```
-
-And pressing `<tab>` again shows this
-
-```bash
->enul search at
-atcFddFaultsEnumSet  atcZncStatesEnumSet  attributeCategoryEnumSet  attributeEnumSet
-```
-
-If you use zsh like I do, you're out of luck for now. Just always start your searches with lower case and you'll be fine.
