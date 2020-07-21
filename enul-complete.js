@@ -3,7 +3,7 @@ const _ = require("lodash")
 
 function completeCommands() {
 
-    const commands = ["help", "search"]
+    const commands = ["help", "search", "SEARCH"]
 
     return _.join(commands, " ")
 }
@@ -34,16 +34,18 @@ function complete([cursorWordPosition, ...args]) {
 
         case 2: // First argument of command
             switch (commandArg) {
+                case "SEARCH":
                 case "search":
-                    return completeSearchForSet(args[1])
+                    return completeSearchForSet({ useOriginal: commandArg === "SEARCH" })
                 default:
                     return []
             }
 
         case 3: // Second argument of command
             switch (commandArg) {
+                case "SEARCH":
                 case "search":
-                    return completeSearchForMember(args[1], args[2])
+                    return completeSearchForMember(args[1], { useOriginal: commandArg === "SEARCH" })
 
                 default:
                     return []
@@ -51,8 +53,8 @@ function complete([cursorWordPosition, ...args]) {
     }
 }
 
-function completeSearchForMember(setArg) {
-    const { enumsByName, enumsById } = getEnums()
+function completeSearchForMember(setArg, { useOriginal }) {
+    const { enumsByName, enumsById } = getEnums(useOriginal)
 
     const enumSet = enumsByName[setArg] || enumsById[setArg]
 
@@ -69,9 +71,9 @@ function completeSearchForMember(setArg) {
 
 }
 
-function completeSearchForSet() {
+function completeSearchForSet({ useOriginal }) {
 
-    const { enumNames, enumIds } = getEnumNamesAndIds()
+    const { enumNames, enumIds } = getEnumNamesAndIds(useOriginal)
 
     return enumNames + " " + enumIds
 }
