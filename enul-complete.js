@@ -40,7 +40,7 @@ function complete([cursorWordPosition, ...args]) {
                     return completeSearchForSet(partialSet, { useOriginal: commandArg === "SEARCH" })
                 }
                 default:
-                    return []
+                    return ""
             }
 
         case 3: // Second argument of command
@@ -52,8 +52,10 @@ function complete([cursorWordPosition, ...args]) {
                     return completeSearchForMember(set, partialMember, { useOriginal: commandArg === "SEARCH" })
                 }
                 default:
-                    return []
+                    return ""
             }
+        default:
+            return ""
     }
 }
 
