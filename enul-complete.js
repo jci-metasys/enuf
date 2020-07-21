@@ -3,10 +3,9 @@ const _ = require("lodash")
 
 function completeCommands(partialCommand) {
 
-    const commands = ["help", "search", "SEARCH"].filter(command =>
-        command.startsWith(partialCommand))
+    const commands = ["help", "search", "SEARCH"]
 
-    return _.join(commands, " ")
+    return filterByPrefixAndJoin(commands, partialCommand)
 }
 
 /**
@@ -36,8 +35,10 @@ function complete([cursorWordPosition, ...args]) {
         case 2: // First argument of command
             switch (commandArg) {
                 case "SEARCH":
-                case "search":
-                    return completeSearchForSet({ useOriginal: commandArg === "SEARCH" })
+                case "search": {
+                    const partialSet = args[1]
+                    return completeSearchForSet(partialSet, { useOriginal: commandArg === "SEARCH" })
+                }
                 default:
                     return []
             }
@@ -45,16 +46,19 @@ function complete([cursorWordPosition, ...args]) {
         case 3: // Second argument of command
             switch (commandArg) {
                 case "SEARCH":
-                case "search":
-                    return completeSearchForMember(args[1], { useOriginal: commandArg === "SEARCH" })
-
+                case "search": {
+                    const set = args[1]
+                    const partialMember = args[2]
+                    return completeSearchForMember(set, partialMember, { useOriginal: commandArg === "SEARCH" })
+                }
                 default:
                     return []
             }
     }
 }
 
-function completeSearchForMember(setArg, { useOriginal }) {
+function completeSearchForMember(setArg, partialMember, { useOriginal }) {
+
     const { enumsByName, enumsById } = getEnums(useOriginal)
 
     const enumSet = enumsByName[setArg] || enumsById[setArg]
@@ -68,15 +72,28 @@ function completeSearchForMember(setArg, { useOriginal }) {
 
     const memberIds = _.keys(enumSet.members)
 
-    return _.join(_.concat(memberNames, memberIds), " ")
+    const allMatches = _.concat(memberIds, memberNames)
+    return filterByPrefixAndJoin(allMatches, partialMember)
 
 }
 
-function completeSearchForSet({ useOriginal }) {
+function completeSearchForSet(partialSet, { useOriginal }) {
 
     const { enumNames, enumIds } = getEnumNamesAndIds(useOriginal)
+    const allMatches = (enumNames + " " + enumIds).split(/\s+/)
 
-    return enumNames + " " + enumIds
+    return filterByPrefixAndJoin(allMatches, partialSet)
+}
+
+function createPrefixPredicate(prefix) {
+    return value => _.isUndefined(prefix) || value.startsWith(prefix)
+}
+
+function filterByPrefixAndJoin(collection, prefix) {
+    return _.chain(collection)
+        .filter(createPrefixPredicate(prefix))
+        .join(" ")
+        .value()
 }
 
 module.exports = { complete }
