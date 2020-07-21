@@ -43,6 +43,7 @@ npm install -g git+https://github.jci.com/cwelchmi/enul
 * Look up just one member
 * Use numeric id or symbolic names for both the set and the member
 * Auto-completions (if configured)
+* Use new camel case names used in JSON payloads (eg. `attributeEnumSet`) or the original names (eg. `ATTRIBUTE_ENUM_SET`)
 
 The symbolic names used by this program are the camel case representation of the macros in JCI_MASTER.xml.
 
@@ -56,6 +57,36 @@ For example, to find `ATTRIBUTE_ENUM_SET` search for `attributeEnumSet` and to f
 * Extract the library from the cli so others can write apps with the library
 
 ## Usage
+
+```text
+usage: enul <command> [<args>]
+
+These are the commands:
+
+   search      Search (and return) the enums using camel case naming
+   SEARCH      Search (and return) the enums using original upper case naming
+
+EXAMPLES
+
+  search
+
+    The search command is invoked like this:
+
+        enul search setArgument [memberArgument]
+
+    where the setArgument can be a camel case set name or a numeric id. The memberArgument is optional. It can be either a camel case member name or a numeric id. If memberArgument is missing the entire set is returned, else just the set identifying information along with the specific member is returned.
+
+  SEARCH
+
+    The SEARCH command is invoked like this:
+
+        enul SEARCH SET_ARGUMENT [MEMBER_ARGUMENT]
+
+    where the SET_ARGUMENT can be an upper case set name or a numeric id. The MEMBER_ARGUMENT is optional. It can be either an upper case member name or a numeric id. If MEMBER_ARGUMENT is missing the entire set is returned, else just the set identifying information along with the specific member is returned.
+```
+
+
+### Examples
 
 Let's say I want to see the entire `BACPOLARITY_ENUM_SET`
 
