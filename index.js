@@ -20,6 +20,13 @@ const { complete } = require("./enul-complete.js")
 
 const userArgs = parseArgs(process.argv.slice(2), {})
 
+// const fs = require("fs")
+
+// const enums = JSON.parse(fs.readFileSync("./data/enums.json"))
+// fs.writeFileSync("./data/enum-names.txt", _.join(_.map(_.keys(enums), key => key.split(".")[0]), " "))
+// fs.writeFileSync("./data/enum-ids.text", _.join(_.map(_.keys(enums), key => key.split(".")[1]), " "))
+
+
 //console.error(userArgs)
 
 const command = userArgs._[0]
@@ -27,7 +34,7 @@ const command = userArgs._[0]
 switch (command) {
     case "complete": {
         const completeArgs = _.concat(userArgs._.slice(1,2), userArgs._.slice(3))
-        console.log(_.join(complete(completeArgs), " "))
+        console.log(complete(completeArgs), " ")
         break
     }
     case "search":

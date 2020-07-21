@@ -8,6 +8,8 @@ const executable = process.argv[1]
 const installDir = path.dirname(fs.realpathSync(executable))
 
 const enumsFile = path.join(installDir, "data", "enums.json")
+const enumNamesFile = path.join(installDir, "data", "enum-names.txt")
+const enumIdsFile = path.join(installDir, "data", "enum-ids.txt")
 const translationsFile = path.join(installDir, "data", "translations.json")
 
 function getTranslations() {
@@ -17,6 +19,12 @@ function getTranslations() {
 function addIdAndNameToSet(set, key) {
     const [name, id] = key.split(".")
     return { ...set, id, name, key }
+}
+
+function getEnumNamesAndIds() {
+    const enumNames = fs.readFileSync(enumNamesFile, { encoding: "utf8" })
+    const enumIds = fs.readFileSync(enumIdsFile, { encoding: "utf8" })
+    return { enumNames, enumIds }
 }
 
 function getEnums() {
@@ -32,4 +40,4 @@ function getEnums() {
     return { enumsByName, enumsById }
 }
 
-module.exports = { getTranslations, getEnums }
+module.exports = { getTranslations, getEnums, getEnumNamesAndIds }

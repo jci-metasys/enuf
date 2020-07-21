@@ -1,24 +1,11 @@
-const { getEnums } = require("./data")
+const { getEnums, getEnumNamesAndIds } = require("./data")
 const _ = require("lodash")
 
-function startsWithMatcher(searchPattern, value, options) {
-    const caseSensitive = !options || _.isUndefined(options.caseSensitive) ? true : false
-    const searchFor = caseSensitive ? searchPattern : _.toLower(searchPattern)
-    const searched = caseSensitive ? value : _.toLower(value)
-
-    return _.startsWith(searched, searchFor)
-}
-
-function completeCommands(partialCommand) {
+function completeCommands() {
 
     const commands = ["help", "search"]
 
-    if (!_.isUndefined(partialCommand)) {
-        const matches = _.filter(commands, command => startsWithMatcher(partialCommand, command))
-        return matches
-    }
-
-    return commands
+    return _.join(commands, " ")
 }
 
 /**
@@ -65,7 +52,6 @@ function complete([cursorWordPosition, ...args]) {
 }
 
 function completeSearchForMember(setArg) {
-
     const { enumsByName, enumsById } = getEnums()
 
     const enumSet = enumsByName[setArg] || enumsById[setArg]
@@ -79,16 +65,15 @@ function completeSearchForMember(setArg) {
 
     const memberIds = _.keys(enumSet.members)
 
-    return _.concat(memberNames, memberIds)
+    return _.join(_.concat(memberNames, memberIds), " ")
 
 }
 
-
 function completeSearchForSet() {
 
-    const { enumsByName, enumsById } = getEnums()
+    const { enumNames, enumIds } = getEnumNamesAndIds()
 
-    return _.concat(_.keys(enumsByName), _.keys(enumsById))
+    return enumNames + " " + enumIds
 }
 
 module.exports = { complete }
