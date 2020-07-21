@@ -64,6 +64,7 @@ function createTableHeader(enumSetName, enumSetId, enumSetDescription) {
 
 function printTable(data) {
 
+    console.log()
     if (!process.env.ENUL_BORDER) {
         _.merge(tableConfig, noBorderTableConfig)
     }
