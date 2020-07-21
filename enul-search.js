@@ -29,7 +29,7 @@ function findMember(members, memberArg) {
     return _.findKey(members, value => value.split(".")[1].toLowerCase() === _.toLower(memberArg))
 }
 
-const tableConfig = {
+const noBorderTableConfig = {
     border: getBorderCharacters("void"),
     columnDefault: {
         paddingLeft: 0,
@@ -38,6 +38,10 @@ const tableConfig = {
     drawHorizontalLine: () => {
         return false
     },
+}
+
+const tableConfig = {
+
     columns: {
         0: {
         },
@@ -51,20 +55,6 @@ const tableConfig = {
     }
 }
 
-/*
-
-{
-    border: getBorderCharacters(`void`),
-    columnDefault: {
-        paddingLeft: 0,
-        paddingRight: 1
-    },
-    drawHorizontalLine: () => {
-        return false
-    }
-
-    */
-
 function createTableHeader(enumSetName, enumSetId, enumSetDescription) {
     return [
         [colors.bold("Name"), colors.bold("Id"), colors.bold("Description")],
@@ -72,13 +62,21 @@ function createTableHeader(enumSetName, enumSetId, enumSetDescription) {
     ]
 }
 
+function printTable(data) {
+
+    if (!process.env.ENUL_BORDER) {
+        _.merge(tableConfig, noBorderTableConfig)
+    }
+
+    const output = table(data, tableConfig)
+    console.log(output)
+}
 
 function printEnumMember(translations, enumSet, memberId) {
     const data = createTableHeader(enumSet.name, enumSet.id, translations[enumSet.key].title)
 
     data.push([enumSet.members[memberId], memberId, translations[enumSet.key].oneOf[memberId]])
-    const output = table(data, tableConfig)
-    console.log(output)
+    printTable(data)
 }
 
 function printEnumSet(translations, enumSet) {
@@ -93,8 +91,7 @@ function printEnumSet(translations, enumSet) {
 
     members.forEach(member => data.push(member))
 
-    const output = table(data, tableConfig)
-    console.log(output)
+    print(table)
 }
 
 function search([setArg, memberArg], { useOriginal }) {
