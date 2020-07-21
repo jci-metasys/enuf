@@ -92,7 +92,7 @@ function printEnumSet(translations, enumSet) {
 
     members.forEach(member => data.push(member))
 
-    print(table)
+    printTable(data)
 }
 
 function search([setArg, memberArg], { useOriginal }) {
