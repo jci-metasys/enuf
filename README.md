@@ -46,7 +46,14 @@ npm install -g git+https://github.jci.com/cwelchmi/enul
 
 The symbolic names used by this program are the camel case representation of the macros in JCI_MASTER.xml.
 
-For example, `ATTRIBUTE_ENUM_SET` becomes `attributeEnumSet` and `PRESENT_VALUE` becomes `presentValue`.
+For example, to find `ATTRIBUTE_ENUM_SET` search for `attributeEnumSet` and to find `PRESENT_VALUE` search for `presentValue`.
+
+### Backlog items
+
+* Support for search the original names in JCI_Master.xml (eg ATTRIBUTE_ENUM_SET)
+* Multi-Language support
+* Ability to update data/languages independently of the app
+* Extract the library from the cli so others can write apps with the library
 
 ## Usage
 
