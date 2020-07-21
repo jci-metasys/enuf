@@ -9,6 +9,8 @@ const installDir = path.dirname(fs.realpathSync(executable))
 
 const enumsFile = path.join(installDir, "data", "enums.json")
 const enumNamesFile = path.join(installDir, "data", "enum-names.txt")
+const originalEnumsFile = path.join(installDir, "data", "original-enums.json")
+const originalEnumNamesFile = path.join(installDir, "data", "original-enum-names.txt")
 const enumIdsFile = path.join(installDir, "data", "enum-ids.txt")
 const translationsFile = path.join(installDir, "data", "translations.json")
 
@@ -21,14 +23,20 @@ function addIdAndNameToSet(set, key) {
     return { ...set, id, name, key }
 }
 
-function getEnumNamesAndIds() {
-    const enumNames = fs.readFileSync(enumNamesFile, { encoding: "utf8" })
+function getEnumNamesAndIds(useOriginal) {
+
+    const enumNamesFileToRead = useOriginal ? originalEnumNamesFile : enumNamesFile
+
+    const enumNames = fs.readFileSync(enumNamesFileToRead, { encoding: "utf8" })
     const enumIds = fs.readFileSync(enumIdsFile, { encoding: "utf8" })
     return { enumNames, enumIds }
 }
 
-function getEnums() {
-    const enumsByKey = JSON.parse(fs.readFileSync(enumsFile, { encoding: "utf8" }))
+function getEnums(useOriginal) {
+
+    const enumsFileToRead = useOriginal ? originalEnumsFile : enumsFile
+
+    const enumsByKey = JSON.parse(fs.readFileSync(enumsFileToRead, { encoding: "utf8" }))
 
     const enumsByName = _.chain(enumsByKey)
         .mapValues(addIdAndNameToSet)
