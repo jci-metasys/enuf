@@ -1,9 +1,10 @@
 const { getEnums, getEnumNamesAndIds } = require("./data")
 const _ = require("lodash")
 
-function completeCommands() {
+function completeCommands(partialCommand) {
 
-    const commands = ["help", "search", "SEARCH"]
+    const commands = ["help", "search", "SEARCH"].filter(command =>
+        command.startsWith(partialCommand))
 
     return _.join(commands, " ")
 }
