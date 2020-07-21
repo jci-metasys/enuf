@@ -38,12 +38,6 @@ function complete([cursorWordPosition, ...args]) {
     // or the next argument if cursor is on a space after all other arguments
 
 
-    //console.error(`word pos: ${cursorWordPosition}, searching for next arg: ${searchForNextArgument}, ${args}`)
-
-
-    //console.error(`word: ${cursorWordPosition}, args: '${args}'`)
-
-
     // Handle first argument (the command argument)
     const commandArg = args[0]
 
@@ -70,7 +64,7 @@ function complete([cursorWordPosition, ...args]) {
     }
 }
 
-function completeSearchForMember(setArg, partialMemberName) {
+function completeSearchForMember(setArg) {
 
     const { enumsByName, enumsById } = getEnums()
 
@@ -83,30 +77,18 @@ function completeSearchForMember(setArg, partialMemberName) {
     const memberNames = _.map(_.values(enumSet.members),
         memberKey => memberKey.split(".")[1])
 
-    if (_.isUndefined(partialMemberName)) {
-        return memberNames
-    }
+    const memberIds = _.keys(enumSet.members)
 
-    return _.filter(memberNames,
-        memberName => _.startsWith(memberName, partialMemberName),
-    )
+    return _.concat(memberNames, memberIds)
+
 }
 
 
-function completeSearchForSet(partialSetName) {
-    //.error(`search for set ${partialSetName}`)
+function completeSearchForSet() {
+
     const { enumsByName, enumsById } = getEnums()
 
-    if (_.isUndefined(partialSetName)) {
-        return _.keys(enumsByName)
-    }
-
-    return _.isNumber(partialSetName)
-        ? enumsById[partialSetName] ? [enumsById[partialSetName].name] : []
-        : _.filter(
-            _.keys(enumsByName),
-            setName => _.startsWith(_.toLower(setName), _.toLower(partialSetName)),
-        )
+    return _.concat(_.keys(enumsByName), _.keys(enumsById))
 }
 
 module.exports = { complete }
