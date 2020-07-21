@@ -1,5 +1,8 @@
 # enul - Enum Lookup
 
+<!-- cspell:ignoreWord BACPOLARITY bacpolrty mkdir chdir autoload compaudit compinit -->
+<!-- cspell:ignoreWord bashcompinit -->
+
 A command line tool for querying Metasys enums. It features auto-completions to make searching quicker with less typing.
 
 ![screen capture of enul](enul-min.gif)
@@ -219,7 +222,7 @@ Now type tab a second time and two suggestions are given
 attributeCategoryEnumSet  attributeEnumSet
 ```
 
-If I now type an E follwed by a tab
+If I now type an E followed by a tab
 
 ```bash
 > enul search attributeE▊<tab>
