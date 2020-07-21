@@ -31,6 +31,12 @@ You can also install directly from GitHub Enterprise. First find the latest vers
 npm install -g git+https://github.jci.com/cwelchmi/enul.git#v0.1.7
 ```
 
+**For the brave:** Install directly from `main`:
+
+```bash
+npm install -g git+https://github.jci.com/cwelchmi/enul
+```
+
 ## Features
 
 * Look up an entire set
