@@ -1,1 +1,0 @@
-If the first parameter to search is a number still allow a search of members

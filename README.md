@@ -47,7 +47,7 @@ For example, `ATTRIBUTE_ENUM_SET` becomes `attributeEnumSet` and `PRESENT_VALUE`
 Let's say I want to see the entire `BACPOLARITY_ENUM_SET`
 
 ```bash
-> enul bacpolarityEnumSet
+> enul search bacpolarityEnumSet
 ╔═════════════════════════════════════╤════╤═══════════════════════════╗
 ║ Name                                │ Id │ Description               ║
 ╟─────────────────────────────────────┼────┼───────────────────────────╢
@@ -66,7 +66,7 @@ Notice that the first line after the header row always gives information about t
 Next I want to find out what member `5` of the `unitEnumSet` is
 
 ```bash
-> enul unitEnumSet 5
+> enul search unitEnumSet 5
 ╔═══════════════════╤═════╤═══════════════════════════╗
 ║ Name              │  Id │ Description               ║
 ╟───────────────────┼─────┼───────────────────────────╢
@@ -79,7 +79,7 @@ Next I want to find out what member `5` of the `unitEnumSet` is
 Now I want to find the `voltAmpereHours` entry in the same set.
 
 ```bash
-> enul unitEnumSet voltAmpereHours
+> enul search unitEnumSet voltAmpereHours
 ╔═════════════════════════════╤═════╤═══════════════════════════╗
 ║ Name                        │  Id │ Description               ║
 ╟─────────────────────────────┼─────┼───────────────────────────╢
@@ -92,7 +92,7 @@ Now I want to find the `voltAmpereHours` entry in the same set.
 Finally, if all I know about an enum member is the set id and member id I can use those as well
 
 ```bash
-> enul 502 2
+> enul search 502 2
 ╔════════════════════════════════════════════════════╤═════╤═══════════════════════════╗
 ║ Name                                               │  Id │ Description               ║
 ╟────────────────────────────────────────────────────┼─────┼───────────────────────────╢
@@ -105,13 +105,14 @@ Finally, if all I know about an enum member is the set id and member id I can us
 
 ## Configuring Completions
 
-### Bash
-That's all great but typing all of those names gets tedious. This is where auto-completions come in to play. Unfortunately they are not configured out of the box. But it doesn't take much to configure them and once you do you can use the tab key to assist you.
+If you configure the completions then you can use the `<tab>` key to see auto-complete suggestions. These work both with bash and zsh.
 
-To do that copy the completions file `enul-completion-bash` to a location in hour $HOME directory. I created a new directory in my home directory called `.completions`.
+### Bash
+
+To do that copy the completions file `enul-completion-bash` to a location in your $HOME directory and source it from your `.bashrc`. I created a new directory in my home directory called `.completions`.
 
 ```bash
-> cd
+> cd ~
 > mkdir .completions
 > chdir .completions
 ```
@@ -144,39 +145,68 @@ autoload -U +X bashcompinit && bashcompinit
 source $HOME/.completions/enul-completion.bash
 ```
 
-
-
 ## Example Usage of Completions
 
-This command line tool comes with bash completions to make it easier to find what you are looking for. For example let's lookup attribute id `3257` from `attributeEnumSet`. In the following example `<tab>` means I pressed the tab key for completions
+This command line tool comes with bash completions to make it easier to find what you are looking for. For example, let's lookup attribute id `3257` from `attributeEnumSet`. In the following example `<tab>` means press the tab key and the `▊` is the cursor.
 
 ```bash
-> enul attri<tab><tab>
+> enul▊<tab>
 ```
 
-After this my screen updated to this
+After you type tab the list of commands is shown and the cursor advanced:
 
 ```bash
-> enul attribute
+> enul ▊
+help    search
+```
+
+Next, type `s` and then tab:
+
+```bash
+> enul s<tab>▊
+```
+
+The command auto-completes and advances the cursor:
+
+```bash
+> enul search ▊
+```
+
+Now start to type the name of the enum set followed by tab.
+
+```bash
+> enul search attr▊<tab>
+```
+
+The enum set partially completes
+
+```bash
+> enul search attribute▊
+```
+
+Now type tab a second time and two suggestions are given
+
+```bash
+> enul search attribute▊
 attributeCategoryEnumSet  attributeEnumSet
 ```
 
-Next I typed `E<tab>`:
+If I now type an E follwed by a tab
 
 ```bash
-> enul attributeE<tab>
+> enul search attributeE▊<tab>
 ```
 
-And my screen updated to
+The set will auto-complete and advanced the cursor
 
 ```bash
-> enul attributeEnumSet
+> enul search attributeEnumSet ▊
 ```
 
 Finally I enter in the id I'm looking for
 
 ```bash
-> enul attributeEnum 3257
+> enul search attributeEnum 3257
 ╔══════════════════════════╤══════╤═══════════════════════════╗
 ║ Name                     │   Id │ Description               ║
 ╟──────────────────────────┼──────┼───────────────────────────╢
@@ -212,19 +242,19 @@ set completion-ignore-case On
 Then the following works:
 
 ```bash
-> enul AT<tab><tab>
+> enul search AT<tab><tab>
 ```
 
 Turns into
 
 ```bash
->enul at
+>enul search at
 ```
 
 And pressing `<tab>` again shows this
 
 ```bash
->enul at
+>enul search at
 atcFddFaultsEnumSet  atcZncStatesEnumSet  attributeCategoryEnumSet  attributeEnumSet
 ```
 
