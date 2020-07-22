@@ -75,17 +75,17 @@ EXAMPLES
 
     The search command is invoked like this:
 
-        enul search setArgument [memberArgument]
+        enul search setArgument [memberArgument...]
 
-    where the setArgument can be a camel case set name or a numeric id. The memberArgument is optional. It can be either a camel case member name or a numeric id. If memberArgument is missing the entire set is returned, else just the set identifying information along with the specific member is returned.
+    where the setArgument can be a camel case set name or a numeric id. The memberArgument is optional. It can be one or more camel case member names or numeric ids. If memberArgument is missing the entire set is returned, else just the set identifying information along with the specific members is returned.
 
   SEARCH
 
     The SEARCH command is invoked like this:
 
-        enul SEARCH SET_ARGUMENT [MEMBER_ARGUMENT]
+        enul SEARCH SET_ARGUMENT [MEMBER_ARGUMENT...]
 
-    where the SET_ARGUMENT can be an upper case set name or a numeric id. The MEMBER_ARGUMENT is optional. It can be either an upper case member name or a numeric id. If MEMBER_ARGUMENT is missing the entire set is returned, else just the set identifying information along with the specific member is returned.
+    where the SET_ARGUMENT can be an upper case set name or a numeric id. The MEMBER_ARGUMENT is optional. It can be one or more upper case member names or numeric ids. If MEMBER_ARGUMENT is missing the entire set is returned, else just the set identifying information along with the specific members is returned.
 ```
 
 ### Examples
@@ -132,6 +132,28 @@ Name                                                  Id   Description
 executionPriorityEnumSet                             502   Execution
                                                            Priority
 executionPriorityEnumSet.criticalEquipmentPriority     2   Critical
+```
+
+Here I'm looking up several enum members based on an xml payload I'm investigating.
+
+```bash
+enul search 514  96 176 97 98 106 99 100 101 102 103 104 105
+
+Name                                     Id   Description
+elementNameEnumSet                      514   Element Name
+elementNameEnumSet.validDays             96   Valid Days
+elementNameEnumSet.enableInternetConn   176   Enable Internet
+                                              Connection Sharing
+elementNameEnumSet.fromTime              97   From Time
+elementNameEnumSet.toTime                98   To Time
+elementNameEnumSet.recChoice            106   Recipient Choice
+elementNameEnumSet.objId                 99   Object ID
+elementNameEnumSet.recNbr               100   Address-Net Nbr
+elementNameEnumSet.recIp                101   Address-IP
+elementNameEnumSet.recUdp               102   Address-UDP Port
+elementNameEnumSet.procId               103   Process Identifier
+elementNameEnumSet.confNotif            104   Confirmed Notif
+elementNameEnumSet.transitions          105   Transitions
 ```
 
 ## Configuring Completions
