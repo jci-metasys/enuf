@@ -43,19 +43,18 @@ function complete([cursorWordPosition, ...args]) {
                     return ""
             }
 
-        case 3: // Second argument of command
+
+        default: // all other args
             switch (commandArg) {
                 case "SEARCH":
                 case "search": {
                     const set = args[1]
-                    const partialMember = args[2]
+                    const partialMember = args[cursorWordPosition]
                     return completeSearchForMember(set, partialMember, { useOriginal: commandArg === "SEARCH" })
                 }
                 default:
                     return ""
             }
-        default:
-            return ""
     }
 }
 

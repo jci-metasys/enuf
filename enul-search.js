@@ -21,6 +21,9 @@ function findSet({ enumsByName, enumsById }, setArg) {
 }
 
 function findMember(members, memberArg) {
+    if (_.isUndefined(memberArg)) {
+        return
+    }
 
     if (_.isNumber(memberArg) && members[memberArg]) {
         return memberArg
@@ -73,10 +76,11 @@ function printTable(data) {
     console.log(output)
 }
 
-function printEnumMember(translations, enumSet, memberId) {
+function printEnumMembers(translations, enumSet, memberIds) {
     const data = createTableHeader(enumSet.name, enumSet.id, translations[enumSet.key].title)
 
-    data.push([enumSet.members[memberId], memberId, translations[enumSet.key].oneOf[memberId]])
+    memberIds.forEach(memberId => data.push([enumSet.members[memberId], memberId, translations[enumSet.key].oneOf[memberId]]))
+
     printTable(data)
 }
 
@@ -95,7 +99,8 @@ function printEnumSet(translations, enumSet) {
     printTable(data)
 }
 
-function search([setArg, memberArg], { useOriginal }) {
+function search([setArg, ...memberArgs], { useOriginal }) {
+
     if (!process.stdout.isTTY) {
         // output is going to a file, disable color markers
         colors.disable()
@@ -108,15 +113,21 @@ function search([setArg, memberArg], { useOriginal }) {
         const set = findSet(enums, setArg)
         if (set) {
             const translations = getTranslations(useOriginal)
-            if (memberArg || memberArg === 0) {
-                const memberId = findMember(set.members, memberArg)
-                if (memberId || memberId === 0) {
-                    printEnumMember(translations, set, memberId)
-                } else {
-                    console.error(`Set '${setArg}' has no member '${memberArg}'`)
-                }
-            } else {
+
+            if (_.isUndefined(memberArgs) || memberArgs.length === 0) {
                 printEnumSet(translations, set)
+                return
+            }
+
+            const memberIds = _.chain(memberArgs)
+                .map(member => findMember(set.members, member))
+                .filter(id => !_.isUndefined(id))
+                .value()
+
+            printEnumMembers(translations, set, memberIds)
+
+            if (memberIds.length === 0) {
+                console.log(`No matching members found in set '${setArg}'`)
             }
 
         } else {
