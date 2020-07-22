@@ -49,7 +49,7 @@ function complete([cursorWordPosition, ...args]) {
                 case "SEARCH":
                 case "search": {
                     const set = args[1]
-                    const partialMember = args[cursorWordPosition]
+                    const partialMember = args[cursorWordPosition-1]
                     return completeSearchForMember(set, partialMember, { useOriginal: commandArg === "SEARCH" })
                 }
                 default:
