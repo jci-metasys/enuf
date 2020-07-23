@@ -279,3 +279,9 @@ Name                                     Id   Description
 ATTRIBUTE_ENUM_SET                      509   Attribute
 ATTRIBUTE_ENUM_SET.PRESENT_VALUE_ATTR    85   Present Value
 ```
+
+## Known Issues
+
+It pains me greatly that their is a slight delay after you type <tab> and the completions happen. On my machine anywhere between 0.15-0.21 seconds (just for the commands. It's longer when it actually needs to do work to search the dictionary). The 0.15-0.2 seconds is the overhead of using node for this application. I created a prototype in C that just returned the list of commands and it was close to 0 (like 0.01s). So it's as snappy as the completions for git.
+
+A rewrite in another language may be in order. Or perhaps I should just write the completions in bash shell scripting (but that seems like a tough job).
