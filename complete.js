@@ -3,7 +3,7 @@ const _ = require("lodash")
 
 function completeCommands(partialCommand) {
 
-    const commands = ["help", "search", "SEARCH"]
+    const commands = ["help", "lookup"]
 
     return filterByPrefixAndJoin(commands, partialCommand)
 }
@@ -34,10 +34,9 @@ function complete([cursorWordPosition, ...args]) {
 
         case 2: // First argument of command
             switch (commandArg) {
-                case "SEARCH":
-                case "search": {
+                case "lookup": {
                     const partialSet = args[1]
-                    return completeSearchForSet(partialSet, { useOriginal: commandArg === "SEARCH" })
+                    return completeSearchForSet(partialSet)
                 }
                 default:
                     return ""
@@ -46,11 +45,10 @@ function complete([cursorWordPosition, ...args]) {
 
         default: // all other args
             switch (commandArg) {
-                case "SEARCH":
-                case "search": {
+                case "lookup": {
                     const set = args[1]
                     const partialMember = args[cursorWordPosition-1]
-                    return completeSearchForMember(set, partialMember, { useOriginal: commandArg === "SEARCH" })
+                    return completeSearchForMember(set, partialMember)
                 }
                 default:
                     return ""
@@ -58,9 +56,11 @@ function complete([cursorWordPosition, ...args]) {
     }
 }
 
-function completeSearchForMember(setArg, partialMember, { useOriginal }) {
+function completeSearchForMember(setArg, partialMember) {
 
-    const { enumsByName, enumsById } = getEnums(useOriginal)
+    const originalNames = isOriginalName(setArg)
+
+    const { enumsByName, enumsById } = getEnums(originalNames)
 
     const enumSet = enumsByName[setArg] || enumsById[setArg]
 
@@ -78,9 +78,16 @@ function completeSearchForMember(setArg, partialMember, { useOriginal }) {
 
 }
 
-function completeSearchForSet(partialSet, { useOriginal }) {
+function isOriginalName(identifier) {
+    return !_.isUndefined(identifier) && _.isString(identifier)
+    && identifier.length > 0 && (identifier[0] === identifier[0].toUpperCase())
+}
 
-    const { enumNames, enumIds } = getEnumNamesAndIds(useOriginal)
+function completeSearchForSet(partialSet) {
+
+    const originalNames = isOriginalName(partialSet)
+
+    const { enumNames, enumIds } = getEnumNamesAndIds(originalNames)
     const allMatches = (enumNames + " " + enumIds).split(/\s+/)
 
     return filterByPrefixAndJoin(allMatches, partialSet)

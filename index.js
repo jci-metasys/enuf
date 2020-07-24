@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 const parseArgs = require("minimist")
 const _ = require("lodash")
-const { search } = require("./search")
+const { lookup } = require("./lookup")
 const { complete } = require("./complete.js")
 
 /* global process */
 
-// Assuming this is the input `enuf search attr<tab><tab>`
+// Assuming this is the input `enuf lookup attr<tab><tab>`
 
 // The arguments to this script when invoked by enuf-completion.bash
 // [0] /Users/cwelchmi/.nvm/versions/node/v10.15.2/bin/node
@@ -14,7 +14,7 @@ const { complete } = require("./complete.js")
 // [2] complete
 // [3] {cursor word position}
 // [4] enuf
-// [5] search
+// [5] lookup
 // [6] attr
 
 
@@ -38,9 +38,8 @@ switch (command) {
         break
     }
 
-    case "SEARCH":
-    case "search":
-        search(userArgs._.slice(1), { useOriginal: (command === "SEARCH") })
+    case "lookup":
+        lookup(userArgs._.slice(1))
         break
 
     case "help":

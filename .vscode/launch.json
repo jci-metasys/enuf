@@ -7,7 +7,7 @@
         {
             "name": "Launch Main",
             "program": "${workspaceFolder}/index.js",
-            "args": ["SEARCH", "WRITE_PRIORITY_ENUM_SET"],
+            "args": ["lookup", "WRITE_PRIORITY_ENUM_SET"],
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -18,7 +18,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Complete",
-            "args": ["complete", "3", "enuf", "search", "attributeEnumSet", "pres"],
+            "args": ["complete", "2", "enuf", "lookup", "ATTR"],
             "skipFiles": [
                 "<node_internals>/**"
             ],

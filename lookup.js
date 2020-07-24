@@ -99,20 +99,25 @@ function printEnumSet(translations, enumSet) {
     printTable(data)
 }
 
-function search([setArg, ...memberArgs], { useOriginal }) {
+function lookup([setArg, ...memberArgs]) {
 
     if (!process.stdout.isTTY) {
         // output is going to a file, disable color markers
         colors.disable()
     }
 
+    // Check to see if user is entering upper case, if so search original names
+    const originalNames = !_.isUndefined(setArg) && _.isString(setArg)
+        && setArg.length > 0 && (setArg[0] === setArg[0].toUpperCase())
+
+    console.error(`Use upper case: ${originalNames}`)
     if (setArg || setArg === 0) {
 
-        const enums = getEnums(useOriginal)
+        const enums = getEnums(originalNames)
 
         const set = findSet(enums, setArg)
         if (set) {
-            const translations = getTranslations(useOriginal)
+            const translations = getTranslations(originalNames)
 
             if (_.isUndefined(memberArgs) || memberArgs.length === 0) {
                 printEnumSet(translations, set)
@@ -136,4 +141,4 @@ function search([setArg, ...memberArgs], { useOriginal }) {
     }
 }
 
-module.exports = { search }
+module.exports = { lookup }
