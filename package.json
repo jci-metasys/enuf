@@ -1,23 +1,23 @@
 {
-  "name": "enul",
+  "name": "enuf",
   "version": "0.3.0",
   "description": "A command line tool for querying Metasys enums",
   "main": "index.js",
   "bin": {
-    "enul": "./index.js"
+    "enuf": "./index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.jci.com/cwelchmi/enul.git"
+    "url": "https://github.jci.com/cwelchmi/enuf.git"
   },
   "keywords": [
     "enums",
     "enum",
     "lookup",
-    "enul",
+    "enuf",
     "dictionary"
   ],
   "author": "Michael Welch",

@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 const parseArgs = require("minimist")
 const _ = require("lodash")
-const { search } = require("./enul-search")
-const { complete } = require("./enul-complete.js")
+const { search } = require("./search")
+const { complete } = require("./complete.js")
 
 /* global process */
 
-// Assuming this is the input `enul search attr<tab><tab>`
+// Assuming this is the input `enuf search attr<tab><tab>`
 
-// The arguments to this script when invoked by enul-completion.bash
+// The arguments to this script when invoked by enuf-completion.bash
 // [0] /Users/cwelchmi/.nvm/versions/node/v10.15.2/bin/node
-// [1] /Users/cwelchmi/repos/enums/enul.js
+// [1] /Users/cwelchmi/repos/enums/enuf.js
 // [2] complete
 // [3] {cursor word position}
-// [4] enul
+// [4] enuf
 // [5] search
 // [6] attr
 

@@ -7,7 +7,7 @@ Lookup an enum set or a subset of members of an enum set. (Pronounced "enough").
 ## Synopsis
 
 ```text
-enuf lookup [--no-members] [--no-set] [--lang=<lang-id>] [-z]
+enuf lookup [--no-members] [--no-set] [--lang=<lang-id>] [-z] [--no-headers]
               <set-descriptor> [<member-descriptor>]...
 ```
 
@@ -58,10 +58,12 @@ The lookup command is used to find a specific set or specific members of a set. 
 * `-z` Specifies that the output should use the original screaming snake case names.
 
   ```bash
-  > enul lookup -z --no-members attributeEnumSet
+  > enuf lookup -z --no-members attributeEnumSet
   name:    ATTRIBUTE_ENUM_SET
   id:      509
   display: Attribute
   ```
 
 * `--lang=<lang-id>` A language tag like `en-US` to specify the language for the display strings.
+
+* `--no-headers` The members of the set are returned in a table format with a header row. If this switch is specified then no header row will be output. This option has no effect if `--no-members` is specified.

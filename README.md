@@ -1,11 +1,11 @@
-# enul - Enum Lookup
+# enuf - Enum Lookup
 
 <!-- cspell:ignoreWord BACPOLARITY bacpolrty mkdir chdir autoload compaudit compinit -->
 <!-- cspell:ignoreWord bashcompinit -->
 
 A command line tool for querying Metasys enums. It features auto-completions to make searching quicker with less typing.
 
-![screen capture of enul](enul-min.gif)
+![screen capture of enuf](enuf-min.gif)
 
 ## Prerequisites
 
@@ -19,25 +19,25 @@ The completion scripts are written for bash. The program will still work fine if
 If you have [jci-gen4-npm-v](https://ses-artifactory.go.johnsoncontrols.com/artifactory/api/npm/jci-gen4-npm-v/) setup as your default registry you can just install directly using npm
 
 ```bash
-npm install -g enul
+npm install -g enuf
 ```
 
 **Recommended Approach:** Otherwise you can use this lengthier version.
 
 ```bash
-npm install -g enul --registry=https://ses-artifactory.go.johnsoncontrols.com/artifactory/api/npm/jci-gen4-npm-v/
+npm install -g enuf --registry=https://ses-artifactory.go.johnsoncontrols.com/artifactory/api/npm/jci-gen4-npm-v/
 ```
 
-You can also install directly from GitHub Enterprise. First find the latest version by looking at the [releases](https://github.jci.com/cwelchmi/enul/releases). For example, at the time of writing the latest version was v0.1.7
+You can also install directly from GitHub Enterprise. First find the latest version by looking at the [releases](https://github.jci.com/cwelchmi/enuf/releases). For example, at the time of writing the latest version was v0.1.7
 
 ```bash
-npm install -g git+https://github.jci.com/cwelchmi/enul.git#v0.1.7
+npm install -g git+https://github.jci.com/cwelchmi/enuf.git#v0.1.7
 ```
 
 **For the brave:** Install directly from `main`:
 
 ```bash
-npm install -g git+https://github.jci.com/cwelchmi/enul
+npm install -g git+https://github.jci.com/cwelchmi/enuf
 ```
 
 ## Features
@@ -62,7 +62,7 @@ For example, to find `ATTRIBUTE_ENUM_SET` search for `attributeEnumSet` and to f
 ## Usage
 
 ```text
-usage: enul <command> [<args>]
+usage: enuf <command> [<args>]
 
 These are the commands:
 
@@ -75,7 +75,7 @@ EXAMPLES
 
     The search command is invoked like this:
 
-        enul search setArgument [memberArgument...]
+        enuf search setArgument [memberArgument...]
 
     where the setArgument can be a camel case set name or a numeric id. The memberArgument is optional. It can be one or more camel case member names or numeric ids. If memberArgument is missing the entire set is returned, else just the set identifying information along with the specific members is returned.
 
@@ -83,7 +83,7 @@ EXAMPLES
 
     The SEARCH command is invoked like this:
 
-        enul SEARCH SET_ARGUMENT [MEMBER_ARGUMENT...]
+        enuf SEARCH SET_ARGUMENT [MEMBER_ARGUMENT...]
 
     where the SET_ARGUMENT can be an upper case set name or a numeric id. The MEMBER_ARGUMENT is optional. It can be one or more upper case member names or numeric ids. If MEMBER_ARGUMENT is missing the entire set is returned, else just the set identifying information along with the specific members is returned.
 ```
@@ -93,7 +93,7 @@ EXAMPLES
 Let's say I want to see the entire `BACPOLARITY_ENUM_SET`
 
 ```bash
-> enul search bacpolarityEnumSet
+> enuf search bacpolarityEnumSet
 
 Name                                  Id   Description
 bacpolarityEnumSet                     3   Normal Reverse
@@ -107,7 +107,7 @@ Notice that the first line after the header row always gives information about t
 Next I want to find out what member `5` of the `unitEnumSet` is
 
 ```bash
-> enul search unitEnumSet 5
+> enuf search unitEnumSet 5
 
 Name                 Id   Description
 unitEnumSet         507   Unit
@@ -117,7 +117,7 @@ unitEnumSet.volts     5   V
 Now I want to find the `voltAmpereHours` entry in the same set.
 
 ```bash
-> enul search unitEnumSet voltAmpereHours
+> enuf search unitEnumSet voltAmpereHours
 
 Name                           Id   Description
 unitEnumSet                   507   Unit
@@ -127,7 +127,7 @@ unitEnumSet.voltAmpereHours   239   VAh
 Finally, if all I know about an enum member is the set id and member id I can use those as well
 
 ```bash
-> enul search 502 2
+> enuf search 502 2
 Name                                                  Id   Description
 executionPriorityEnumSet                             502   Execution
                                                            Priority
@@ -137,7 +137,7 @@ executionPriorityEnumSet.criticalEquipmentPriority     2   Critical
 Here I'm looking up several enum members based on an xml payload I'm investigating.
 
 ```bash
-enul search 514  96 176 97 98 106 99 100 101 102 103 104 105
+enuf search 514  96 176 97 98 106 99 100 101 102 103 104 105
 
 Name                                     Id   Description
 elementNameEnumSet                      514   Element Name
@@ -162,7 +162,7 @@ If you configure the completions then you can use the `<tab>` key to see auto-co
 
 ### Bash
 
-To do that copy the completions file `enul-completion-bash` to a location in your $HOME directory and source it from your `.bashrc`. I created a new directory in my home directory called `.completions`.
+To do that copy the completions file `enuf-completion-bash` to a location in your $HOME directory and source it from your `.bashrc`. I created a new directory in my home directory called `.completions`.
 
 ```bash
 > cd ~
@@ -170,19 +170,19 @@ To do that copy the completions file `enul-completion-bash` to a location in you
 > chdir .completions
 ```
 
-The file `enul-completion.bash` is stored somewhere in your `node.js` configuration files. The easiest way to get it is to just grab it from the repo [here](https://github.jci.com/cwelchmi/enul/blob/main/enul-completion.bash). You can copy and paste the contents of that file into a new file. Save it to the directory you just created with the name `enul-completion.bash`.
+The file `enuf-completion.bash` is stored somewhere in your `node.js` configuration files. The easiest way to get it is to just grab it from the repo [here](https://github.jci.com/cwelchmi/enuf/blob/main/enuf-completion.bash). You can copy and paste the contents of that file into a new file. Save it to the directory you just created with the name `enuf-completion.bash`.
 
 Finally edit your `.bashrc` file and add this line at the end. (This should be in your home directory. If it isn't it's safe to create it. If you are using `.profile` instead of `.bashrc` you can add the line there instead)
 
 ```bash
-source $HOME/.completions/enul-completion.bash
+source $HOME/.completions/enuf-completion.bash
 ```
 
-Now every time you start a new shell the completions will be loaded for `enul`.
+Now every time you start a new shell the completions will be loaded for `enuf`.
 
 ### ZSH
 
-Follow the instructions for creating the `enul-completion.bash` file from previous section and put it in the `.completions` directory.
+Follow the instructions for creating the `enuf-completion.bash` file from previous section and put it in the `.completions` directory.
 
 Then in your `.oh-my-zsh/oh-my-zsh.sh` file find this line
 
@@ -194,8 +194,8 @@ Add the following lines right after it
 
 ```zsh
 autoload -U +X bashcompinit && bashcompinit
-# Make sure enul completions are loaded
-source $HOME/.completions/enul-completion.bash
+# Make sure enuf completions are loaded
+source $HOME/.completions/enuf-completion.bash
 ```
 
 ## Example Usage of Completions
@@ -203,63 +203,63 @@ source $HOME/.completions/enul-completion.bash
 This command line tool comes with bash completions to make it easier to find what you are looking for. For example, let's lookup attribute id `3257` from `attributeEnumSet`. In the following example `<tab>` means press the tab key and the `▊` is the cursor.
 
 ```bash
-> enul▊<tab>
+> enuf▊<tab>
 ```
 
 After you type tab the list of commands is shown and the cursor advanced:
 
 ```bash
-> enul ▊
+> enuf ▊
 help    search
 ```
 
 Next, type `s` and then tab:
 
 ```bash
-> enul s<tab>▊
+> enuf s<tab>▊
 ```
 
 The command auto-completes and advances the cursor:
 
 ```bash
-> enul search ▊
+> enuf search ▊
 ```
 
 Now start to type the name of the enum set followed by tab.
 
 ```bash
-> enul search attr▊<tab>
+> enuf search attr▊<tab>
 ```
 
 The enum set partially completes
 
 ```bash
-> enul search attribute▊
+> enuf search attribute▊
 ```
 
 Now type tab a second time and two suggestions are given
 
 ```bash
-> enul search attribute▊
+> enuf search attribute▊
 attributeCategoryEnumSet  attributeEnumSet
 ```
 
 If I now type an E followed by a tab
 
 ```bash
-> enul search attributeE▊<tab>
+> enuf search attributeE▊<tab>
 ```
 
 The set will auto-complete and advanced the cursor
 
 ```bash
-> enul search attributeEnumSet ▊
+> enuf search attributeEnumSet ▊
 ```
 
 Finally I enter in the id I'm looking for
 
 ```bash
-> enul search attributeEnumSet 3257
+> enuf search attributeEnumSet 3257
 
 Name                         Id   Description
 attributeEnumSet            509   Attribute
@@ -273,7 +273,7 @@ Then when I hit return I get a table with the results. After the header row, the
 The application supports searching and returning the original upper case names with the use of the `SEARCH` command.
 
 ```bash
-> enul SEARCH ATTRIBUTE_ENUM_SET PRESENT_VALUE_ATTR
+> enuf SEARCH ATTRIBUTE_ENUM_SET PRESENT_VALUE_ATTR
 
 Name                                     Id   Description
 ATTRIBUTE_ENUM_SET                      509   Attribute
