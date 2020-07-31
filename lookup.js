@@ -110,7 +110,6 @@ function lookup([setArg, ...memberArgs]) {
     const originalNames = !_.isUndefined(setArg) && _.isString(setArg)
         && setArg.length > 0 && (setArg[0] === setArg[0].toUpperCase())
 
-    console.error(`Use upper case: ${originalNames}`)
     if (setArg || setArg === 0) {
 
         const enums = getEnums(originalNames)
