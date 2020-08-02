@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Search for Completion Terms",
+            "program": "${workspaceFolder}/complete.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "Launch Search",
             "program": "${workspaceFolder}/search.js",
             "request": "launch",

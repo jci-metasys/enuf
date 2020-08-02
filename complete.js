@@ -1,4 +1,4 @@
-const { getEnums, getEnumNamesAndIds } = require("./data")
+const { getEnums, getEnumNamesAndIds, getTranslations } = require("./data")
 const _ = require("lodash")
 
 function completeCommands(partialCommand) {
@@ -38,6 +38,10 @@ function complete([cursorWordPosition, ...args]) {
                     const partialSet = args[1]
                     return completeSearchForSet(partialSet)
                 }
+                case "search": {
+                    const partialTerm = args[1]
+                    return completeSearchForTerm(partialTerm)
+                }
                 default:
                     return ""
             }
@@ -50,14 +54,30 @@ function complete([cursorWordPosition, ...args]) {
                     const partialMember = args[cursorWordPosition-1]
                     return completeSearchForMember(set, partialMember)
                 }
+                case "search": {
+                    const partialTerm = args[cursorWordPosition-1]
+                    return completeSearchForTerm(partialTerm)
+                }
                 default:
                     return ""
             }
     }
 }
 
-function completeSearchForMember(setArg, partialMember) {
+/**
+ *
+ * @param {*} partialTerm a token in the set of all translation words
+ */
+function completeSearchForTerm(partialTerm) {
+    const translationSets = getTranslations()
 
+    const terms = _.flatMap(_.values(translationSets), set => _.flatMap(_.values(set.oneOf), display => display.split(/\s/)))
+    const matches = _.filter(terms, term => term.startsWith(partialTerm))
+    const result = (_.uniq(matches)).sort()
+    return _.join(result, " ")
+}
+
+function completeSearchForMember(setArg, partialMember) {
     const originalNames = isOriginalName(setArg)
 
     const { enumsByName, enumsById } = getEnums(originalNames)
