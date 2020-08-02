@@ -72,7 +72,7 @@ function completeSearchForTerm(partialTerm) {
     const translationSets = getTranslations()
 
     const terms = _.flatMap(_.values(translationSets), set => _.flatMap(_.values(set.oneOf),
-        display => _.map(display.split(/\s/), word => word.replace(/[^0-9a-z]/gi, '').toLowerCase())))
+        display => _.map(display.split(/\s/), word => word.replace(/^[^0-9a-z]*/i, '').toLowerCase())))
     const matches = _.filter(terms, term => term.startsWith(partialTerm))
     const result = (_.uniq(matches)).sort()
     return _.join(result, " ")
