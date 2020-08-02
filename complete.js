@@ -3,7 +3,7 @@ const _ = require("lodash")
 
 function completeCommands(partialCommand) {
 
-    const commands = ["help", "lookup"]
+    const commands = ["help", "lookup", "search"]
 
     return filterByPrefixAndJoin(commands, partialCommand)
 }
