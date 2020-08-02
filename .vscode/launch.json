@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Search",
+            "program": "${workspaceFolder}/search.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "Launch Main",
             "program": "${workspaceFolder}/index.js",
             "args": ["lookup", "WRITE_PRIORITY_ENUM_SET"],

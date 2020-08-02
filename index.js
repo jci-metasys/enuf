@@ -2,7 +2,8 @@
 const parseArgs = require("minimist")
 const _ = require("lodash")
 const { lookup } = require("./lookup")
-const { complete } = require("./complete.js")
+const { complete } = require("./complete")
+const { search } = require("./search")
 
 /* global process */
 
@@ -40,6 +41,10 @@ switch (command) {
 
     case "lookup":
         lookup(userArgs._.slice(1))
+        break
+
+    case "search":
+        search(userArgs._.slice(1))
         break
 
     case "help":
