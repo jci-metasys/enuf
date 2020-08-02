@@ -2,7 +2,7 @@
 
 *This is prelim documentation for desired state of enuf.*
 
-Lookup an enum set or a subset of members of an enum set. (Pronounced "enough").
+Lookup an enum set or a subset of members of an enum set.
 
 ## Synopsis
 
@@ -10,6 +10,8 @@ Lookup an enum set or a subset of members of an enum set. (Pronounced "enough").
 enuf lookup [--no-members] [--no-set] [--lang=<lang-id>] [-z] [--no-headers]
               <set-descriptor> [<member-descriptor>]...
 ```
+
+At present, none of the switches or options is imlemented. But the `<set-descriptor>` and `<member-descriptor>` arguments are implemented.
 
 ## Description
 
