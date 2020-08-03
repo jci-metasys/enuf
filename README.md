@@ -30,10 +30,10 @@ npm install -g enuf
 npm install -g enuf --registry=https://ses-artifactory.go.johnsoncontrols.com/artifactory/api/npm/jci-gen4-npm-v/
 ```
 
-You can also install directly from GitHub Enterprise. First find the latest version by looking at the [releases](https://github.jci.com/cwelchmi/enuf/releases). For example, at the time of writing the latest version was v0.1.7
+You can also install directly from GitHub Enterprise. First find the latest version by looking at the [releases](https://github.jci.com/cwelchmi/enuf/releases). For example, at the time of writing the latest version was v0.4.3
 
 ```bash
-npm install -g git+https://github.jci.com/cwelchmi/enuf.git#v0.1.7
+npm install -g git+https://github.jci.com/cwelchmi/enuf.git#v0.4.3
 ```
 
 **For the brave:** Install directly from `main`:
