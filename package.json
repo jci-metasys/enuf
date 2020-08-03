@@ -7,7 +7,8 @@
     "enuf": "./index.js"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
