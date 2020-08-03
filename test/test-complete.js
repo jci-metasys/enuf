@@ -37,6 +37,12 @@ describe("complete", () => {
     })
 
     context("Lookup completions for sets", () => {
+
+        context("No input given", () => {
+            it("returns all sets", () => {
+                expect(complete([2, "lookup"])).length.greaterThan(10000)
+            })
+        })
         context("partial camel case set name given", () => {
             context("input: attribute", () => {
                 it("returns attributeCategoryEnumSet and attributeEnumSet", () => {

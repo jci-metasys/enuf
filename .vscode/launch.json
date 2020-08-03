@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Lookup",
+            "program": "${workspaceFolder}/index.js",
+            "request": "launch",
+
+            "args": ["lookup", "attributeEnumSet", "presentValue"],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "Search for Completion Terms",
             "program": "${workspaceFolder}/complete.js",
             "request": "launch",
@@ -20,7 +31,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "type": "pwa-node"
+            "type": "pwa-node",
+            "stopOnEntry": true
         },
         {
             "name": "Launch Main",
@@ -40,7 +52,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/index.js"
+            "program": "${workspaceFolder}/complete.js"
         }
     ]
 }
