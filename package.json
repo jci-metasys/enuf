@@ -7,7 +7,7 @@
     "enuf": "./index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,8 @@
     "table": "^5.4.6"
   },
   "devDependencies": {
-    "eslint": "^7.5.0"
+    "chai": "^4.2.0",
+    "eslint": "^7.5.0",
+    "mocha": "^8.1.0"
   }
 }

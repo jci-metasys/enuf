@@ -40,7 +40,7 @@ switch (command) {
     }
 
     case "lookup":
-        lookup(userArgs._.slice(1))
+        console.log(lookup(userArgs._.slice(1)))
         break
 
     case "search":
