@@ -54,13 +54,13 @@ describe("complete", () => {
         context("partial numeric id given", () => {
             context("input: 50", () => {
                 it("returns 50 500 501 502 503 504 505 506 507 508 509", () => {
-                    expect(complete([2, "lookup", "50"])).to.equal("50 500 501 502 503 504 505 506 507 508 509")
+                    expect(complete([2, "lookup", 50])).to.equal("50 500 501 502 503 504 505 506 507 508 509")
                 })
             })
 
             context("input: 507", () => {
                 it("returns 507", () => {
-                    expect(complete([2, "lookup", "507"])).to.equal("507")
+                    expect(complete([2, "lookup", 507])).to.equal("507")
                 })
             })
         })
