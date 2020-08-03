@@ -1,5 +1,7 @@
 # enuf - Enum Lookup
 
+![Node.js CI](https://github.com/michaelgwelch/enuf.js/workflows/Node.js%20CI/badge.svg?event=push)
+
 <!-- cspell:ignoreWord BACPOLARITY bacpolrty mkdir chdir autoload compaudit compinit -->
 <!-- cspell:ignoreWord bashcompinit -->
 
