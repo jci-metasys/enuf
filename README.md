@@ -49,14 +49,10 @@ npm install -g git+https://github.jci.com/cwelchmi/enuf
 * Use numeric id or symbolic names for both the set and the member
 * Auto-completions (if configured)
 * Use new camel case names used in JSON payloads (eg. `attributeEnumSet`) or the original names (eg. `ATTRIBUTE_ENUM_SET`)
-
-The symbolic names used by this program are the camel case representation of the macros in JCI_MASTER.xml.
-
-For example, to find `ATTRIBUTE_ENUM_SET` search for `attributeEnumSet` and to find `PRESENT_VALUE` search for `presentValue`.
+* Search for a set based on translated text
 
 ### Backlog items
 
-* Support for search the original names in JCI_Master.xml (eg ATTRIBUTE_ENUM_SET)
 * Multi-Language support
 * Ability to update data/languages independently of the app
 * Extract the library from the cli so others can write apps with the library
@@ -68,34 +64,61 @@ usage: enuf <command> [<args>]
 
 These are the commands:
 
-   search      Search (and return) the enums using camel case naming
-   SEARCH      Search (and return) the enums using original upper case naming
+   lookup      Lookup and display a set or partial set
+   search      Search for sets containing specified works in translated text
 
 EXAMPLES
+
+  lookup
+
+    The lookup command is invoked like this:
+
+        enuf lookup setArgument [memberArgument...]
+
+    where the setArgument can be a set name or a numeric id. The memberArgument is optional. It can be one or more member names or numeric ids. If memberArgument is missing the entire set is returned, else just the set identifying information along with the specific members is returned.
 
   search
 
     The search command is invoked like this:
 
-        enuf search setArgument [memberArgument...]
+        enuf search word [word...]
 
-    where the setArgument can be a camel case set name or a numeric id. The memberArgument is optional. It can be one or more camel case member names or numeric ids. If memberArgument is missing the entire set is returned, else just the set identifying information along with the specific members is returned.
-
-  SEARCH
-
-    The SEARCH command is invoked like this:
-
-        enuf SEARCH SET_ARGUMENT [MEMBER_ARGUMENT...]
-
-    where the SET_ARGUMENT can be an upper case set name or a numeric id. The MEMBER_ARGUMENT is optional. It can be one or more upper case member names or numeric ids. If MEMBER_ARGUMENT is missing the entire set is returned, else just the set identifying information along with the specific members is returned.
+    where word is a word being searched for.
 ```
 
+See [help](./help/enuf.md) for detailed help
+
 ### Examples
+
+#### Searching
+
+Let's say I want to find all the sets with a member that contains "active" and a differnt member that contains "inactive". (Notice that active can match inactive, our search will look for unique members.)
+
+```bash
+> enuf search active inactive
+activeInactive2EnumSet
+activeInactiveEnumSet
+attributeEnumSet
+bacEventTypeEnumSet
+binarypvEnumSet
+enumerationSetNamesEnumSet
+inactActFaultEnumSet
+inactiveActiveEnumSet
+multistateEnumSet
+objectStatusEnumSet
+ssboPresentValueEnumSet
+statusEnumSet
+totalizeStatusEnumSet
+triggerPresentValueEnumSet
+twostateEnumSet
+```
+
+#### Lookup
 
 Let's say I want to see the entire `BACPOLARITY_ENUM_SET`
 
 ```bash
-> enuf search bacpolarityEnumSet
+> enuf lookup bacpolarityEnumSet
 
 Name                                  Id   Description
 bacpolarityEnumSet                     3   Normal Reverse
@@ -109,7 +132,7 @@ Notice that the first line after the header row always gives information about t
 Next I want to find out what member `5` of the `unitEnumSet` is
 
 ```bash
-> enuf search unitEnumSet 5
+> enuf lookup unitEnumSet 5
 
 Name                 Id   Description
 unitEnumSet         507   Unit
@@ -119,7 +142,7 @@ unitEnumSet.volts     5   V
 Now I want to find the `voltAmpereHours` entry in the same set.
 
 ```bash
-> enuf search unitEnumSet voltAmpereHours
+> enuf lookup unitEnumSet voltAmpereHours
 
 Name                           Id   Description
 unitEnumSet                   507   Unit
@@ -129,7 +152,7 @@ unitEnumSet.voltAmpereHours   239   VAh
 Finally, if all I know about an enum member is the set id and member id I can use those as well
 
 ```bash
-> enuf search 502 2
+> enuf lookup 502 2
 Name                                                  Id   Description
 executionPriorityEnumSet                             502   Execution
                                                            Priority
@@ -139,7 +162,7 @@ executionPriorityEnumSet.criticalEquipmentPriority     2   Critical
 Here I'm looking up several enum members based on an xml payload I'm investigating.
 
 ```bash
-enuf search 514  96 176 97 98 106 99 100 101 102 103 104 105
+enuf lookup 514  96 176 97 98 106 99 100 101 102 103 104 105
 
 Name                                     Id   Description
 elementNameEnumSet                      514   Element Name
@@ -212,56 +235,56 @@ After you type tab the list of commands is shown and the cursor advanced:
 
 ```bash
 > enuf ▊
-help    search
+help    lookup    search
 ```
 
-Next, type `s` and then tab:
+Next, type `l` and then tab:
 
 ```bash
-> enuf s<tab>▊
+> enuf l<tab>▊
 ```
 
 The command auto-completes and advances the cursor:
 
 ```bash
-> enuf search ▊
+> enuf lookup ▊
 ```
 
 Now start to type the name of the enum set followed by tab.
 
 ```bash
-> enuf search attr▊<tab>
+> enuf lookup attr▊<tab>
 ```
 
 The enum set partially completes
 
 ```bash
-> enuf search attribute▊
+> enuf lookup attribute▊
 ```
 
 Now type tab a second time and two suggestions are given
 
 ```bash
-> enuf search attribute▊
+> enuf lookup attribute▊
 attributeCategoryEnumSet  attributeEnumSet
 ```
 
 If I now type an E followed by a tab
 
 ```bash
-> enuf search attributeE▊<tab>
+> enuf lookup attributeE▊<tab>
 ```
 
 The set will auto-complete and advanced the cursor
 
 ```bash
-> enuf search attributeEnumSet ▊
+> enuf lookup attributeEnumSet ▊
 ```
 
 Finally I enter in the id I'm looking for
 
 ```bash
-> enuf search attributeEnumSet 3257
+> enuf lookup attributeEnumSet 3257
 
 Name                         Id   Description
 attributeEnumSet            509   Attribute
@@ -272,10 +295,10 @@ Then when I hit return I get a table with the results. After the header row, the
 
 ## Original Upper Case Names
 
-The application supports searching and returning the original upper case names with the use of the `SEARCH` command.
+The application supports searching and returning the original upper case names.
 
 ```bash
-> enuf SEARCH ATTRIBUTE_ENUM_SET PRESENT_VALUE_ATTR
+> enuf lookup ATTRIBUTE_ENUM_SET PRESENT_VALUE_ATTR
 
 Name                                     Id   Description
 ATTRIBUTE_ENUM_SET                      509   Attribute
