@@ -2,10 +2,9 @@ const path = require("path")
 const fs = require("fs")
 const _ = require("lodash")
 
-/* global process */
+/* global  __filename */
 
-const executable = process.argv[1]
-const installDir = path.dirname(fs.realpathSync(executable))
+const installDir = path.dirname(__filename)
 
 const enumsFile = path.join(installDir, "data", "enums.json")
 const enumNamesFile = path.join(installDir, "data", "enum-names.txt")

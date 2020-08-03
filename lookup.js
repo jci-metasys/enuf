@@ -4,7 +4,23 @@ const { table, getBorderCharacters } = require("table")
 const { getTranslations, getEnums } = require("./data")
 
 /* global process */
-/* eslint-disable no-console */
+/* eslint-disable  */
+
+class Console {
+
+    constructor() {
+        this.buffer = []
+    }
+
+    log(value) {
+        this.buffer.push(_.trimEnd(value))
+    }
+
+    toString() {
+        return this.buffer.join("\n")
+    }
+
+}
 
 function findSet({ enumsByName, enumsById }, setArg) {
 
@@ -66,7 +82,7 @@ function createTableHeader(enumSetName, enumSetId, enumSetDescription) {
 }
 
 function printTable(data) {
-
+    console = new Console()
     console.log()
     if (!process.env.enuf_BORDER) {
         _.merge(tableConfig, noBorderTableConfig)
@@ -74,6 +90,8 @@ function printTable(data) {
 
     const output = table(data, tableConfig)
     console.log(output)
+
+    return console.toString()
 }
 
 function printEnumMembers(translations, enumSet, memberIds) {
@@ -81,7 +99,7 @@ function printEnumMembers(translations, enumSet, memberIds) {
 
     memberIds.forEach(memberId => data.push([enumSet.members[memberId], memberId, translations[enumSet.key].oneOf[memberId]]))
 
-    printTable(data)
+    return printTable(data)
 }
 
 function printEnumSet(translations, enumSet) {
@@ -96,7 +114,7 @@ function printEnumSet(translations, enumSet) {
 
     members.forEach(member => data.push(member))
 
-    printTable(data)
+    return printTable(data)
 }
 
 function lookup([setArg, ...memberArgs]) {
@@ -119,8 +137,7 @@ function lookup([setArg, ...memberArgs]) {
             const translations = getTranslations(originalNames)
 
             if (_.isUndefined(memberArgs) || memberArgs.length === 0) {
-                printEnumSet(translations, set)
-                return
+                return printEnumSet(translations, set)
             }
 
             const memberIds = _.chain(memberArgs)
@@ -128,14 +145,14 @@ function lookup([setArg, ...memberArgs]) {
                 .filter(id => !_.isUndefined(id))
                 .value()
 
-            printEnumMembers(translations, set, memberIds)
-
             if (memberIds.length === 0) {
-                console.log(`No matching members found in set '${setArg}'`)
+                console.warn(`No matching members found in set '${setArg}'`)
             }
 
+            return printEnumMembers(translations, set, memberIds)
+
         } else {
-            console.error(`Set '${setArg}' not found`)
+            console.warn(`Set '${setArg}' not found`)
         }
     }
 }
