@@ -1,4 +1,4 @@
-const { getTranslations } = require("./data")
+const { getEnums } = require("./data")
 const _ = require("lodash")
 
 /**
@@ -32,10 +32,10 @@ const stringIncludesTermPredicateCaseInsensitive = term => value => value.toLowe
 
 function search(terms) {
     const predicates = _.map(terms, stringIncludesTermPredicateCaseInsensitive)
-    const translationSets = getTranslations()
-    const sets = _.pickBy(translationSets, set =>
-        uniqueValueSatisfiesEachPredicate(_.values(set.oneOf), predicates))
-    const setNames = _.map(_.keys(sets), key => key.split(".")[0]).sort()
+    const enums = getEnums()
+    const sets = _.filter(enums, set =>
+        uniqueValueSatisfiesEachPredicate(_.map(set.members, member => member.display), predicates))
+    const setNames = _.map(sets, set => set.name).sort()
     _.forEach(setNames, name => console.log(name))
 }
 

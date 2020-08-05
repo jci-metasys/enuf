@@ -1,4 +1,4 @@
-const { getEnums, getEnumNamesAndIds, getTranslations } = require("./data")
+const { getEnums, getEnumSet } = require("./data")
 const _ = require("lodash")
 
 function completeCommands(partialCommand) {
@@ -51,11 +51,11 @@ function complete([cursorWordPosition, ...args]) {
             switch (commandArg) {
                 case "lookup": {
                     const set = args[1]
-                    const partialMember = args[cursorWordPosition-1]
+                    const partialMember = args[cursorWordPosition - 1]
                     return completeSearchForMember(set, partialMember)
                 }
                 case "search": {
-                    const partialTerm = args[cursorWordPosition-1]
+                    const partialTerm = args[cursorWordPosition - 1]
                     return completeSearchForTerm(partialTerm)
                 }
                 default:
@@ -69,53 +69,79 @@ function complete([cursorWordPosition, ...args]) {
  * @param {*} partialTerm a token in the set of all translation words
  */
 function completeSearchForTerm(partialTerm) {
-    const translationSets = getTranslations()
+    const enums = getEnums()
 
-    const terms = _.flatMap(_.values(translationSets), set => _.flatMap(_.values(set.oneOf),
-        display => _.map(display.split(/\s/), word => word.replace(/^[^0-9a-z]*/i, "").replace(/[^0-9a-z]*$/i, "").toLowerCase())))
+    const terms = _.flatMap(enums, set => _.flatMap(_.values(set.members),
+        member => _.map(member.display.split(/\s/), word => word.replace(/^[^0-9a-z]*/i, "").replace(/[^0-9a-z]*$/i, "").toLowerCase())))
     const matches = _.filter(terms, term => term.startsWith(partialTerm))
     const result = (_.uniq(matches)).sort()
     return _.join(result, " ")
 }
 
 function completeSearchForMember(setArg, partialMember) {
-    const originalNames = isOriginalName(setArg)
 
-    const { enumsByName, enumsById } = getEnums(originalNames)
-
-    const enumSet = enumsByName[setArg] || enumsById[setArg]
+    const enumSet = getEnumSet(setArg)
 
     if (!enumSet) {
         return []
     }
 
-    const memberNames = _.map(_.values(enumSet.members),
-        memberKey => memberKey.split(".")[1])
+    if (_.isUndefined(partialMember)) {
+        const memberNames = _.map(enumSet.members, member => member.name)
+        const memberIds = _.map(enumSet.members, member => member.id)
+        const originalNames = _.map(enumSet.members, member => member.originalName)
 
-    const memberIds = _.keys(enumSet.members)
+        const allMatches = _.concat(memberIds, memberNames, originalNames)
+        return filterByPrefixAndJoin(allMatches, partialMember)
+    }
 
-    const allMatches = _.concat(memberIds, memberNames)
-    return filterByPrefixAndJoin(allMatches, partialMember)
+    if (_.isFinite(parseInt(partialMember, 10))) {
+        const memberIds = _.map(enumSet.members, member => member.id)
+        return filterByPrefixAndJoin(memberIds, partialMember)
+    }
 
+    if (isOriginalName(partialMember)) {
+        const originalNames = _.map(enumSet.members, member => member.originalName)
+        return filterByPrefixAndJoin(originalNames, partialMember)
+    }
+
+    const memberNames = _.map(enumSet.members, member => member.name)
+    return filterByPrefixAndJoin(memberNames, partialMember)
 }
 
 function isOriginalName(identifier) {
     return !_.isUndefined(identifier) && _.isString(identifier)
-    && identifier.length > 0 && (identifier[0] === identifier[0].toUpperCase())
+        && identifier.length > 0 && (identifier[0] === identifier[0].toUpperCase())
 }
 
 function completeSearchForSet(partialSet) {
+    const enums = getEnums()
 
-    const originalNames = isOriginalName(partialSet)
+    if (_.isUndefined(partialSet)) {
+        const names = _.map(enums, set => set.name)
+        const ids = _.map(enums, set => set.id)
+        const originalNames = _.map(enums, set => set.originalName)
 
-    const { enumNames, enumIds } = getEnumNamesAndIds(originalNames)
-    const allMatches = (enumNames + " " + enumIds).split(/\s+/)
+        const allMatches = _.concat(ids, names, originalNames)
+        return filterByPrefixAndJoin(allMatches, partialSet)
+    }
 
-    return filterByPrefixAndJoin(allMatches, partialSet)
+    if (_.isFinite(parseInt(partialSet, 10))) {
+        const ids = _.map(enums, set => set.id)
+        return filterByPrefixAndJoin(ids, partialSet)
+    }
+
+    if (isOriginalName(partialSet)) {
+        const originalNames = _.map(enums, set => set.originalName)
+        return filterByPrefixAndJoin(originalNames, partialSet)
+    }
+
+    const names = _.map(enums, set => set.name)
+    return filterByPrefixAndJoin(names, partialSet)
 }
 
 function createPrefixPredicate(prefix) {
-    return value => _.isUndefined(prefix) || value.startsWith(prefix)
+    return value => _.isUndefined(prefix) || _.startsWith(value, prefix)
 }
 
 function filterByPrefixAndJoin(collection, prefix) {

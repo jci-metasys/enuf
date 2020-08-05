@@ -1,7 +1,7 @@
 const colors = require("colors/safe")
 const _ = require("lodash")
 const { table, getBorderCharacters } = require("table")
-const { getTranslations, getEnums } = require("./data")
+const { getEnumSet } = require("./data")
 
 /* global process */
 /* eslint-disable  */
@@ -22,32 +22,6 @@ class Console {
 
 }
 
-function findSet({ enumsByName, enumsById }, setArg) {
-
-    if (_.isNumber(setArg)) {
-        return enumsById[setArg]
-    }
-
-    var set = _.find(enumsByName, (set, name) => name.toLowerCase() === _.toLower(setArg))
-    if (set) {
-        return set
-    }
-
-
-}
-
-function findMember(members, memberArg) {
-    if (_.isUndefined(memberArg)) {
-        return
-    }
-
-    if (_.isNumber(memberArg) && members[memberArg]) {
-        return memberArg
-    }
-
-    return _.findKey(members, value => value.split(".")[1].toLowerCase() === _.toLower(memberArg))
-}
-
 const noBorderTableConfig = {
     border: getBorderCharacters("void"),
     columnDefault: {
@@ -65,24 +39,26 @@ const tableConfig = {
         0: {
         },
         1: {
-            alignment: "right"
+
         },
         2: {
+            alignment: "right"
+        },
+        3: {
             width: 25,
             wrapWord: true
         }
     }
 }
 
-function createTableHeader(enumSetName, enumSetId, enumSetDescription) {
+function createTableHeader(name, originalName, id, display) {
     return [
-        [colors.bold("Name"), colors.bold("Id"), colors.bold("Description")],
-        [colors.brightBlue(enumSetName), colors.brightBlue(enumSetId), colors.brightBlue(enumSetDescription)],
+        [colors.bold("Name"), colors.bold("NAME"), colors.bold("Id"), colors.bold("Description")],
+        [colors.blue(name), colors.blue(originalName), colors.blue(id), colors.blue(display)]
     ]
 }
 
-function printTable(data) {
-    console = new Console()
+function printTable(data, console) {
     console.log()
     if (!process.env.enuf_BORDER) {
         _.merge(tableConfig, noBorderTableConfig)
@@ -91,30 +67,45 @@ function printTable(data) {
     const output = table(data, tableConfig)
     console.log(output)
 
+}
+
+function printEnumMembers(enumSet, members) {
+    const console = new Console()
+
+    const data = createTableHeader(enumSet.name, enumSet.originalName, enumSet.id, enumSet.display)
+
+    data.push(["","","",""])
+    data.push([colors.bold("Name"), colors.bold("NAME"), colors.bold("Id"), colors.bold("Description")])
+
+    members.forEach(member => data.push([member.name, member.originalName, member.id, member.display]))
+
+    printTable(data, console)
     return console.toString()
 }
 
-function printEnumMembers(translations, enumSet, memberIds) {
-    const data = createTableHeader(enumSet.name, enumSet.id, translations[enumSet.key].title)
+function printEnumSet(enumSet) {
+    const console = new Console()
 
-    memberIds.forEach(memberId => data.push([enumSet.members[memberId], memberId, translations[enumSet.key].oneOf[memberId]]))
+    const data = createTableHeader(enumSet.name, enumSet.originalName, enumSet.id, enumSet.display)
 
-    return printTable(data)
-}
-
-function printEnumSet(translations, enumSet) {
-    const data = createTableHeader(enumSet.name, enumSet.id, translations[enumSet.key].title)
-
+    data.push(["","","",""])
+    data.push([colors.bold("Name"), colors.bold("NAME"), colors.bold("Id"), colors.bold("Description")])
 
     const members = _.chain(enumSet.members)
-        .toPairs()
-        .map(pair => [`${pair[1]}`, pair[0], translations[enumSet.key].oneOf[pair[0]]])
-        .sortBy(triple => parseInt(triple[1], 10))
+        .sortBy(member => member.id)
+        .map(member => [member.name, member.originalName, member.id, member.display])
         .value()
 
     members.forEach(member => data.push(member))
 
-    return printTable(data)
+    printTable(data, console)
+    return console.toString()
+}
+
+function findMember(set, memberArg) {
+    return _.chain(set.members)
+        .filter(member => member.name === memberArg || member.originalName === memberArg || member.id === memberArg)
+        .value()
 }
 
 function lookup([setArg, ...memberArgs]) {
@@ -124,32 +115,25 @@ function lookup([setArg, ...memberArgs]) {
         colors.disable()
     }
 
-    // Check to see if user is entering upper case, if so search original names
-    const originalNames = !_.isUndefined(setArg) && _.isString(setArg)
-        && setArg.length > 0 && (setArg[0] === setArg[0].toUpperCase())
-
     if (setArg || setArg === 0) {
 
-        const enums = getEnums(originalNames)
-
-        const set = findSet(enums, setArg)
+        const set = getEnumSet(setArg)
         if (set) {
-            const translations = getTranslations(originalNames)
 
             if (_.isUndefined(memberArgs) || memberArgs.length === 0) {
-                return printEnumSet(translations, set)
+                return printEnumSet(set)
             }
 
-            const memberIds = _.chain(memberArgs)
-                .map(member => findMember(set.members, member))
-                .filter(id => !_.isUndefined(id))
+            const members = _.chain(memberArgs)
+                .flatMap(memberArg => findMember(set, memberArg))
+                .filter(member => !_.isUndefined(member))
                 .value()
 
-            if (memberIds.length === 0) {
+            if (members.length === 0) {
                 console.warn(`No matching members found in set '${setArg}'`)
             }
 
-            return printEnumMembers(translations, set, memberIds)
+            return printEnumMembers(set, members)
 
         } else {
             console.warn(`Set '${setArg}' not found`)

@@ -8,50 +8,34 @@ const colors = require("colors/safe")
 colors.disable()
 
 
-// The ${""} are only used to keep VS Code from trimming traling white space
+// The ${""} are only used to keep VS Code from trimming trailing white space
 const bosetupEnumSetString =
 `
-Name                               Id   Description                 ${""}
-bosetupEnumSet                      2   BO Setup                    ${""}
-bosetupEnumSet.bosetupMomentary     0   Momentary                   ${""}
-bosetupEnumSet.bosetupMaintained    1   Maintained                  ${""}
-bosetupEnumSet.bosetupPulse         2   Pulse                       ${""}
-bosetupEnumSet.bosetupStartStop     3   Start Stop`
-
-const BOSETUP_ENUM_SET_STRING =
-`
-Name                                  Id   Description                 ${""}
-BOSETUP_ENUM_SET                       2   BO Setup                    ${""}
-BOSETUP_ENUM_SET.BOSETUP_MOMENTARY     0   Momentary                   ${""}
-BOSETUP_ENUM_SET.BOSETUP_MAINTAINED    1   Maintained                  ${""}
-BOSETUP_ENUM_SET.BOSETUP_PULSE         2   Pulse                       ${""}
-BOSETUP_ENUM_SET.BOSETUP_START_STOP    3   Start Stop`
+Name                NAME                 Id   Description                 ${""}
+bosetupEnumSet      BOSETUP_ENUM_SET      2   BO Setup                    ${""}
+                                                                          ${""}
+Name                NAME                 Id   Description                 ${""}
+bosetupMomentary    BOSETUP_MOMENTARY     0   Momentary                   ${""}
+bosetupMaintained   BOSETUP_MAINTAINED    1   Maintained                  ${""}
+bosetupPulse        BOSETUP_PULSE         2   Pulse                       ${""}
+bosetupStartStop    BOSETUP_START_STOP    3   Start Stop`
 
 const bosetupEnumSet_bosetupPulseString =
 `
-Name                          Id   Description                 ${""}
-bosetupEnumSet                 2   BO Setup                    ${""}
-bosetupEnumSet.bosetupPulse    2   Pulse`
+Name             NAME               Id   Description                 ${""}
+bosetupEnumSet   BOSETUP_ENUM_SET    2   BO Setup                    ${""}
+                                                                     ${""}
+Name             NAME               Id   Description                 ${""}
+bosetupPulse     BOSETUP_PULSE       2   Pulse`
 
 const bosetupEnumSet_bosetupPulse_bosetupStartStop =
 `
-Name                              Id   Description                 ${""}
-bosetupEnumSet                     2   BO Setup                    ${""}
-bosetupEnumSet.bosetupPulse        2   Pulse                       ${""}
-bosetupEnumSet.bosetupStartStop    3   Start Stop`
-
-const BOSETUP_ENUM_SET_BOSETUP_PULSE =
-`
-Name                             Id   Description                 ${""}
-BOSETUP_ENUM_SET                  2   BO Setup                    ${""}
-BOSETUP_ENUM_SET.BOSETUP_PULSE    2   Pulse`
-
-const BOSETUP_ENUM_SET_BOSETUP_PULSE_BOSETUP_START_STOP =
-`
-Name                                  Id   Description                 ${""}
-BOSETUP_ENUM_SET                       2   BO Setup                    ${""}
-BOSETUP_ENUM_SET.BOSETUP_PULSE         2   Pulse                       ${""}
-BOSETUP_ENUM_SET.BOSETUP_START_STOP    3   Start Stop`
+Name               NAME                 Id   Description                 ${""}
+bosetupEnumSet     BOSETUP_ENUM_SET      2   BO Setup                    ${""}
+                                                                         ${""}
+Name               NAME                 Id   Description                 ${""}
+bosetupPulse       BOSETUP_PULSE         2   Pulse                       ${""}
+bosetupStartStop   BOSETUP_START_STOP    3   Start Stop`
 
 describe("lookup", () => {
     context("lookup bosetupEnumSet", () => {
@@ -69,7 +53,7 @@ describe("lookup", () => {
 
     context("lookup BOSETUP_ENUM_SET", () => {
         it("returns the bosetupEnumSet", () => {
-            expect(lookup(["BOSETUP_ENUM_SET"])).equals(BOSETUP_ENUM_SET_STRING)
+            expect(lookup(["BOSETUP_ENUM_SET"])).equals(bosetupEnumSetString)
         })
     })
 
@@ -103,14 +87,14 @@ describe("lookup", () => {
         context("lookup BOSETUP_ENUM_SET BOSETUP_PULSE", () => {
             it("returns one member of set", () => {
                 expect(lookup(["BOSETUP_ENUM_SET", "BOSETUP_PULSE"]))
-                    .equals(BOSETUP_ENUM_SET_BOSETUP_PULSE)
+                    .equals(bosetupEnumSet_bosetupPulseString)
             })
         })
 
         context("lookup BOSETUP_ENUM_SET BOSETUP_PULSE BOSETUP_START_STOP", () => {
             it("returns one member of set", () => {
                 expect(lookup(["BOSETUP_ENUM_SET", "BOSETUP_PULSE", "BOSETUP_START_STOP"]))
-                    .equals(BOSETUP_ENUM_SET_BOSETUP_PULSE_BOSETUP_START_STOP)
+                    .equals(bosetupEnumSet_bosetupPulse_bosetupStartStop)
             })
         })
 
