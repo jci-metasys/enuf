@@ -1,6 +1,9 @@
 {
   "name": "@metasys/enuf",
   "version": "0.4.5",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "description": "A command line tool for querying Metasys enums",
   "main": "index.js",
   "bin": {
@@ -12,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.jci.com/cwelchmi/enuf.git"
+    "url": "https://github.com/metasys-server/enuf.js.git"
   },
   "keywords": [
     "enums",
