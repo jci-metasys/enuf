@@ -3,7 +3,7 @@
 ![Node.js CI](https://github.com/michaelgwelch/enuf.js/workflows/Node.js%20CI/badge.svg?event=push)
 
 <!-- cspell:ignoreWord BACPOLARITY bacpolrty mkdir chdir autoload compaudit compinit -->
-<!-- cspell:ignoreWord bashcompinit notif USERPROFILE -->
+<!-- cspell:ignoreWord bashcompinit -->
 
 A command line tool for querying Metasys enums. It features auto-completions to make searching quicker with less typing.
 
@@ -12,9 +12,9 @@ A command line tool for querying Metasys enums. It features auto-completions to 
 ## Prerequisites
 
 * node and npm
-* bash, zsh, or PowerShell (for completions to work)
+* bash or zsh (for completions to work)
 
-The completion scripts are written for bash and PowerShell. The program will still work fine if you aren't using these but you won't get auto-completions.
+The completion scripts are written for bash. The program will still work fine if you aren't using bash or zsh but you won't get auto-completions.
 
 ## Installation
 
@@ -183,11 +183,11 @@ elementNameEnumSet.transitions          105   Transitions
 
 ## Configuring Completions
 
-If you configure the completions then you can use the `<tab>` key to see auto-complete suggestions. These work with bash, zsh, and PowerShell.
+If you configure the completions then you can use the `<tab>` key to see auto-complete suggestions. These work both with bash and zsh.
 
 ### Bash
 
-To do that copy the completions file `enuf-completion-bash` to a location in your `$HOME` directory and source it from your `.bashrc`. I created a new directory in my home directory called `.completions`.
+To do that copy the completions file `enuf-completion-bash` to a location in your $HOME directory and source it from your `.bashrc`. I created a new directory in my home directory called `.completions`.
 
 ```bash
 > cd ~
@@ -221,18 +221,6 @@ Add the following lines right after it
 autoload -U +X bashcompinit && bashcompinit
 # Make sure enuf completions are loaded
 source $HOME/.completions/enuf-completion.bash
-```
-
-### PowerShell
-
-Create or edit your PowerShell profile script. For file locations, please follow [Microsoft's PowerShell About Profiles article](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles?view=powershell-7).
-
-Follow the instructions for creating the `enuf-completion.bash` file from the [bash section](#bash), except grab the `enuf-completion.ps1` file instead and put it in the `.completions` directory.
-
-Then in your PowerShell profile file, add the following line:
-
-```powershell
-Import-Module -Name $HOME/.completions/enuf-completion.ps1
 ```
 
 ## Example Usage of Completions
