@@ -28,7 +28,7 @@ function uniqueValueSatisfiesEachPredicate(values, predicates) {
     return false
 }
 
-const stringIncludesTermPredicateCaseInsensitive = term => value => value.toLowerCase().includes(term.toLowerCase())
+const stringIncludesTermPredicateCaseInsensitive = term => value => value.toLowerCase().includes(_.toLower(term))
 
 function search(terms) {
     const predicates = _.map(terms, stringIncludesTermPredicateCaseInsensitive)
