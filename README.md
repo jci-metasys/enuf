@@ -118,25 +118,29 @@ twostateEnumSet
 Let's say I want to see the entire `BACPOLARITY_ENUM_SET`
 
 ```bash
-> enuf lookup bacpolarityEnumSet
+> enuf lookup BACPOLARITY_ENUM_SET
 
-Name                                  Id   Description
-bacpolarityEnumSet                     3   Normal Reverse
-bacpolarityEnumSet.bacpolrtyNormal     0   Normal
-bacpolarityEnumSet.bacpolrtyReverse    1   Reverse
-bacpolarityEnumSet.bacpolrtyHold       2   Hold
+Name                 NAME                   Id   Description
+bacpolarityEnumSet   BACPOLARITY_ENUM_SET    3   Normal Reverse
+
+Name                 NAME                   Id   Description
+bacpolrtyNormal      BACPOLRTY_NORMAL        0   Normal
+bacpolrtyReverse     BACPOLRTY_REVERSE       1   Reverse
+bacpolrtyHold        BACPOLRTY_HOLD          2   Hold
 ```
 
-Notice that the first line after the header row always gives information about the set (it's name, id and description).
+The first two lines describe the set identifiers. Next, comes a table of all of the members of the set.
 
 Next I want to find out what member `5` of the `unitEnumSet` is
 
 ```bash
 > enuf lookup unitEnumSet 5
 
-Name                 Id   Description
-unitEnumSet         507   Unit
-unitEnumSet.volts     5   V
+Name          NAME             Id   Description
+unitEnumSet   UNIT_ENUM_SET   507   Unit
+
+Name          NAME             Id   Description
+volts         VOLTS             5   V
 ```
 
 Now I want to find the `voltAmpereHours` entry in the same set.
@@ -144,41 +148,47 @@ Now I want to find the `voltAmpereHours` entry in the same set.
 ```bash
 > enuf lookup unitEnumSet voltAmpereHours
 
-Name                           Id   Description
-unitEnumSet                   507   Unit
-unitEnumSet.voltAmpereHours   239   VAh
+Name              NAME                 Id   Description
+unitEnumSet       UNIT_ENUM_SET       507   Unit
+
+Name              NAME                 Id   Description
+voltAmpereHours   VOLT_AMPERE_HOURS   239   VAh
 ```
 
 Finally, if all I know about an enum member is the set id and member id I can use those as well
 
 ```bash
 > enuf lookup 502 2
-Name                                                  Id   Description
-executionPriorityEnumSet                             502   Execution
-                                                           Priority
-executionPriorityEnumSet.criticalEquipmentPriority     2   Critical
+
+Name                        NAME                           Id   Description
+executionPriorityEnumSet    EXECUTION_PRIORITY_ENUM_SET   502   Execution
+                                                                Priority
+
+Name                        NAME                           Id   Description
+criticalEquipmentPriority   CRITICAL_EQUIPMENT_PRIORITY     2   Critical
 ```
 
 Here I'm looking up several enum members based on an xml payload I'm investigating.
 
 ```bash
-enuf lookup 514  96 176 97 98 106 99 100 101 102 103 104 105
 
-Name                                     Id   Description
-elementNameEnumSet                      514   Element Name
-elementNameEnumSet.validDays             96   Valid Days
-elementNameEnumSet.enableInternetConn   176   Enable Internet
-                                              Connection Sharing
-elementNameEnumSet.fromTime              97   From Time
-elementNameEnumSet.toTime                98   To Time
-elementNameEnumSet.recChoice            106   Recipient Choice
-elementNameEnumSet.objId                 99   Object ID
-elementNameEnumSet.recNbr               100   Address-Net Nbr
-elementNameEnumSet.recIp                101   Address-IP
-elementNameEnumSet.recUdp               102   Address-UDP Port
-elementNameEnumSet.procId               103   Process Identifier
-elementNameEnumSet.confNotif            104   Confirmed Notif
-elementNameEnumSet.transitions          105   Transitions
+Name                 NAME                           Id   Description
+elementNameEnumSet   ELEMENT_NAME_ENUM_SET         514   Element Name
+
+Name                 NAME                           Id   Description
+validDays            ELENAM_VALID_DAYS              96   Valid Days
+enableInternetConn   ELENAM_ENABLE_INTERNET_CONN   176   Enable Internet
+                                                         Connection Sharing
+fromTime             ELENAM_FROM_TIME               97   From Time
+toTime               ELENAM_TO_TIME                 98   To Time
+recChoice            ELENAM_REC_CHOICE             106   Recipient Choice
+objId                ELENAM_OBJ_ID                  99   Object ID
+recNbr               ELENAM_REC_NBR                100   Address-Net Nbr
+recIp                ELENAM_REC_IP                 101   Address-IP
+recUdp               ELENAM_REC_UDP                102   Address-UDP Port
+procId               ELENAM_PROC_ID                103   Process Identifier
+confNotif            ELENAM_CONF_NOTIF             104   Confirmed Notif
+transitions          ELENAM_TRANSITIONS            105   Transitions
 ```
 
 ## Configuring Completions
@@ -286,12 +296,14 @@ Finally I enter in the id I'm looking for
 ```bash
 > enuf lookup attributeEnumSet 3257
 
-Name                         Id   Description
-attributeEnumSet            509   Attribute
-attributeEnumSet.input61   3257   Input61
+Name               NAME                   Id   Description
+attributeEnumSet   ATTRIBUTE_ENUM_SET    509   Attribute
+
+Name               NAME                   Id   Description
+input61            INPUT61_ATTR         3257   Input61
 ```
 
-Then when I hit return I get a table with the results. After the header row, the next row always includes information about the set itself. Then the next line includes the member I was looking for.
+Then when I hit return I get a table with the results. After the header rows, the next row always includes information about the set itself. Then the next line includes the member I was looking for.
 
 You can even use completions with search:
 
@@ -305,18 +317,6 @@ presence             press                pressure             pressure|evaporat
 ```
 
 This shows you all the terms that start with `pres`
-
-## Original Upper Case Names
-
-The application supports searching and returning the original upper case names.
-
-```bash
-> enuf lookup ATTRIBUTE_ENUM_SET PRESENT_VALUE_ATTR
-
-Name                                     Id   Description
-ATTRIBUTE_ENUM_SET                      509   Attribute
-ATTRIBUTE_ENUM_SET.PRESENT_VALUE_ATTR    85   Present Value
-```
 
 ## Known Issues
 
