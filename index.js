@@ -44,7 +44,7 @@ switch (command) {
         break
 
     case "search":
-        search(userArgs._.slice(1))
+        console.log(search(userArgs._.slice(1)))
         break
 
     case "help":

@@ -31,12 +31,15 @@ function uniqueValueSatisfiesEachPredicate(values, predicates) {
 const stringIncludesTermPredicateCaseInsensitive = term => value => value.toLowerCase().includes(_.toLower(term))
 
 function search(terms) {
+    if (terms.length > 3) {
+        console.warn("Searching for more than 3 or 4 terms may take a long time. Type Ctrl-C to cancel.")
+    }
     const predicates = _.map(terms, stringIncludesTermPredicateCaseInsensitive)
     const enums = getEnums()
     const sets = _.filter(enums, set =>
         uniqueValueSatisfiesEachPredicate(_.map(set.members, member => member.display), predicates))
     const setNames = _.map(sets, set => set.name).sort()
-    _.forEach(setNames, name => console.log(name))
+    return _.join(setNames, "\n")
 }
 
 module.exports = { search }
