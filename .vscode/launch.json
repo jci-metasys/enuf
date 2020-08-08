@@ -8,7 +8,9 @@
             "name": "Launch Lookup",
             "program": "${workspaceFolder}/index.js",
             "request": "launch",
-
+            "env": {
+                "ENUF_LANG": "ja_JP"
+            },
             "args": ["lookup", "attributeEnumSet", "presentValue"],
             "skipFiles": [
                 "<node_internals>/**"
