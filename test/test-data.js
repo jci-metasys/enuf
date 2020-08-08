@@ -8,14 +8,14 @@ const packageDir = path.dirname(__dirname)
 const testDataDir = path.join(packageDir, "test", "data")
 
 
-function testEnvironmentVariables(done) {
+function testEnvironmentVariables() {
     const originalEnv = { ...process.env }
 
     process.env.ENUF_LANG = "en_GB"
     try {
         getEnums()
         fail("Expected getEnums to throw")
-    // eslint-disable-next-line no-empty
+        // eslint-disable-next-line no-empty
     } catch {
     }
 
@@ -25,10 +25,22 @@ function testEnvironmentVariables(done) {
     const expected = JSON.parse(fs.readFileSync(fileName, { encoding: "utf8" }))
     expect(getEnums()).deep.equals(expected)
 
-    process.env = { ...originalEnv}
-    done()
+    process.env = { ...originalEnv }
 }
 
-describe("getEnums", () =>
-    xit("Test Env Variables", done => testEnvironmentVariables(done))
-)
+// Explicitly not using lambda so that the `this` var is set
+// apropriately so I can call skip dynamically
+// Due to the use of env vars it doesn't play well with the rest
+// of the suite.
+describe("getEnums", function () {
+
+    it("Test Env Variables", function() {
+        if (process.env.ENUF_INCLUDE_SKIP_TEST) {
+            testEnvironmentVariables()
+        } else {
+
+            this.skip()
+        }
+    })
+
+})

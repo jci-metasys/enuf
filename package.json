@@ -10,8 +10,8 @@
     "enuf": "./src/index.js"
   },
   "scripts": {
-    "test": "mocha --invert -g getEnums",
-    "test2": "mocha -g getEnums",
+    "test": "mocha",
+    "test2": "ENUF_INCLUDE_SKIP_TEST=true mocha -g getEnums",
     "lint": "eslint ."
   },
   "repository": {
