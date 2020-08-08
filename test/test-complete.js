@@ -1,5 +1,6 @@
 const { expect } = require("chai")
 const { complete } = require("../src/complete")
+const path = require("path")
 
 // These tests all mimic that calling convention that the
 // enuf-completion.bash completion script invokes enuf
@@ -10,7 +11,7 @@ const { complete } = require("../src/complete")
 describe("complete", () => {
     context("no input", () => {
         it("returns all commands", () => {
-            expect(complete([1])).to.equal("help lookup search")
+            expect(complete([1])).to.equal("config help lookup search")
         })
     })
 
@@ -30,6 +31,12 @@ describe("complete", () => {
         context("start of search is entered", () => {
             it("returns just 'search'", () => {
                 expect(complete([1, "s"])).to.equal("search")
+            })
+        })
+
+        context("start of config is entered", () => {
+            it("returns just 'config'", () => {
+                expect(complete([1, "c"])).to.equal("config")
             })
         })
     })
@@ -126,5 +133,37 @@ describe("complete", () => {
 
         })
     })
+
+    context("Lookup config options", () => {
+        context("enuf config ", () => {
+            it("returns data.language and data.version", () => {
+                expect(complete([2, "config"])).to.equal("data.language data.version")
+            })
+        })
+
+    })
 })
 
+
+function testCompleteLanguages() {
+    const originalEnv = { ...process.env }
+
+    process.env.ENUF_DATA_DIR = path.join(__dirname, "data")
+
+    expect(complete([3, "config", "data.language"])).to.equal("en_GB en_US ja_JP")
+    process.env = { ...originalEnv }
+}
+
+describe("complete enuf config - depends on env vars", () => {
+    before(function() {
+        if (!process.env.ENUF_INCLUDE_SKIP_TEST) {
+            this.skip()
+        }
+    })
+
+    context("enuf config data.language", () => {
+        it("returns the languages from the test data directory", () => {
+            testCompleteLanguages()
+        })
+    })
+})

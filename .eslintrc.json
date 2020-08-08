@@ -14,11 +14,12 @@
         "__filename": "readonly",
         "__dirname": "readonly",
         // mocha vars
-        "describe": "readonly",
-        "context": "readonly",
-        "it": "readonly",
         "afterEach": "readonly",
+        "before": "readonly",
         "beforeEach": "readonly",
+        "context": "readonly",
+        "describe": "readonly",
+        "it": "readonly",
         "test": "readonly"
     },
     "rules": {

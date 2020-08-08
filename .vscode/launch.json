@@ -54,7 +54,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/complete.js"
+            "program": "${workspaceFolder}/scratch/test-complete.js"
         }
     ]
 }

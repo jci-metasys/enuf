@@ -1,9 +1,11 @@
-const { getEnums, getEnumSet } = require("./data")
+const { getEnums, getEnumSet, getDataDir } = require("./data")
 const _ = require("lodash")
+const fs = require("fs")
+const path = require("path")
 
 function completeCommands(partialCommand) {
 
-    const commands = ["help", "lookup", "search"]
+    const commands = ["config", "help", "lookup", "search"]
 
     return filterByPrefixAndJoin(commands, partialCommand)
 }
@@ -42,6 +44,10 @@ function complete([cursorWordPosition, ...args]) {
                     const partialTerm = args[1]
                     return completeSearchForTerm(partialTerm)
                 }
+                case "config": {
+                    const partialOption = args[1]
+                    return completeConfigFor(partialOption)
+                }
                 default:
                     return ""
             }
@@ -58,10 +64,57 @@ function complete([cursorWordPosition, ...args]) {
                     const partialTerm = args[cursorWordPosition - 1]
                     return completeSearchForTerm(partialTerm)
                 }
+                case "config": {
+                    if (cursorWordPosition === 3) {
+                        const option = args[1]
+                        const partialValue = args[cursorWordPosition - 1]
+                        if (option == "data.language") return completeLanguageCodes(partialValue)
+                        if (option == "data.version") return completeVersions(partialValue)
+                    }
+                    return ""
+                }
                 default:
                     return ""
             }
     }
+}
+
+function completeConfigFor(partialOption) {
+    if ("data".startsWith(partialOption || "")) {
+        return "data.language data.version"
+    }
+
+    if (partialOption.startsWith("data.")) {
+        return "data.language data.version"
+    }
+
+    return ""
+}
+
+function completeVersions(partialVersion) {
+    if (!fs.existsSync(getDataDir())) return ""
+    const dataDir = getDataDir()
+    const versionDirs = fs.readdirSync(dataDir)
+    return _.chain(versionDirs)
+        .filter(version => version.startsWith(partialVersion || ""))
+        .sort()
+        .join(" ")
+        .value()
+}
+
+function completeLanguageCodes(partialLang) {
+    if (!fs.existsSync(getDataDir())) return ""
+    const dataDir = getDataDir()
+    const versionDirs = fs.readdirSync(dataDir)
+
+    return _.chain(versionDirs)
+        .flatMap(dirName => fs.readdirSync(path.join(dataDir, dirName)))
+        .uniq()
+        .map(name => name.substring(0,5))
+        .filter(code => code.startsWith(partialLang || ""))
+        .sort()
+        .join(" ")
+        .value()
 }
 
 /**
