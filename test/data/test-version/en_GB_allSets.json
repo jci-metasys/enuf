@@ -1,0 +1,28 @@
+[
+    {
+        "name": "colorEnumSet",
+        "originalName": "COLOR_ENUM_SET",
+        "id": 576235,
+        "display": "Colour",
+        "members": [
+            {
+                "name": "colorRed",
+                "originalName": "COLOR_RED",
+                "id": 0,
+                "display": "Red"
+            },
+            {
+                "name": "colorGreen",
+                "originalName": "COLOR_GREEN",
+                "id": 1,
+                "display": "Green"
+            },
+            {
+                "name": "colorBlue",
+                "originalName": "COLOR_BLUE",
+                "id": 2,
+                "display": "Blue"
+            }
+        ]
+    }
+]

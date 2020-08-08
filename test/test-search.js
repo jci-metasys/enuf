@@ -9,6 +9,23 @@ const { search } = require("../src/search")
 // The rest of the args are the args on the command line
 // (eg. "lookup attributeEnumSet presentV")
 
+const searchForActiveInactiveResult = `activeInactive2EnumSet
+activeInactiveEnumSet
+attributeEnumSet
+bacEventTypeEnumSet
+binarypvEnumSet
+enumerationSetNamesEnumSet
+inactActFaultEnumSet
+inactiveActiveEnumSet
+multistateEnumSet
+objectStatusEnumSet
+ssboPresentValueEnumSet
+statusEnumSet
+totalizeStatusEnumSet
+triggerPresentValueEnumSet
+twostateEnumSet`
+
+
 describe("search", () => {
     context("Search for single multi word term 'no priority'", () => {
         it("return the two matching sets", () => {
@@ -18,8 +35,10 @@ describe("search", () => {
 
     context("Search for active inactive hold", () => {
         it("returns 7 sets", () => {
-            expect(search(["active", "inactive", "hold"]))
-                .is.equal("activeInactiveEnumSet\nattributeEnumSet\nbinarypvEnumSet\nenumerationSetNamesEnumSet\nmultistateEnumSet\nstatusEnumSet\ntwostateEnumSet")
+            expect(search(["active", "inactive"]))
+                .is.equal(searchForActiveInactiveResult)
         })
     })
+
+
 })

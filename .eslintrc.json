@@ -16,7 +16,10 @@
         // mocha vars
         "describe": "readonly",
         "context": "readonly",
-        "it": "readonly"
+        "it": "readonly",
+        "afterEach": "readonly",
+        "beforeEach": "readonly",
+        "test": "readonly"
     },
     "rules": {
         "indent": [
