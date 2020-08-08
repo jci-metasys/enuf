@@ -105,7 +105,9 @@ function completeVersions(partialVersion) {
 function completeLanguageCodes(partialLang) {
     if (!fs.existsSync(getDataDir())) return ""
     const dataDir = getDataDir()
-    const versionDirs = fs.readdirSync(dataDir)
+    const versionDirs = _.chain(fs.readdirSync(dataDir, { withFileTypes: true }))
+        .filter(dirEnt => dirEnt.isDirectory())
+        .map(dirEnt => dirEnt.name)
 
     return _.chain(versionDirs)
         .flatMap(dirName => fs.readdirSync(path.join(dataDir, dirName)))
