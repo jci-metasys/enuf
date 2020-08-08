@@ -1,5 +1,5 @@
 const { expect } = require("chai")
-const { lookup } = require("../lookup")
+const { lookup } = require("../src/lookup")
 const colors = require("colors/safe")
 
 /* global it context describe */

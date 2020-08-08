@@ -1,5 +1,5 @@
 const { expect } = require("chai")
-const { complete } = require("../complete")
+const { complete } = require("../src/complete")
 
 /* global context it describe */
 

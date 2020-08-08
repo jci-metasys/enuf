@@ -7,7 +7,7 @@
   "description": "A command line tool for querying Metasys enums",
   "main": "index.js",
   "bin": {
-    "enuf": "./index.js"
+    "enuf": "./src/index.js"
   },
   "scripts": {
     "test": "mocha",

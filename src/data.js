@@ -32,7 +32,7 @@ function getSetsFileNameInternal(version, langCode) {
     }
 
     // return package default file
-    const installDir = path.dirname(__filename)
+    const installDir = path.dirname(path.dirname(__filename))
     const allSetsFile = path.join(installDir, "data", "_allSets.json")
     return allSetsFile
 }
