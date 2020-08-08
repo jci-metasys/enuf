@@ -7,7 +7,7 @@
 
 A command line tool for querying Metasys enums. It features auto-completions to make searching quicker with less typing.
 
-![screen capture of enuf](enuf-min.gif)
+![screen capture of enuf](images/enuf-min.gif)
 
 ## Prerequisites
 
