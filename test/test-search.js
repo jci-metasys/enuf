@@ -1,5 +1,5 @@
 const { expect } = require("chai")
-const { search } = require("../search")
+const { search } = require("../src/search")
 
 /* global context it describe */
 // cspell:ignoreWord nbinarypv nmultistate ntwostate
