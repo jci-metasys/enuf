@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "test2": "ENUF_INCLUDE_SKIP_TEST=true mocha -g getEnums",
+    "test2": "cross-env ENUF_INCLUDE_SKIP_TEST=true mocha -g getEnums",
     "lint": "eslint ."
   },
   "repository": {
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
     "eslint": "^7.5.0",
     "mocha": "^8.1.0"
   }
