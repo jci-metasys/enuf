@@ -62,4 +62,4 @@ function getEnumSetInternal(setArg, version, langCode) {
 
 const getEnumSet = _.memoize(getEnumSetInternal)
 
-module.exports = { getEnums, getEnumSet }
+module.exports = { getEnums, getEnumSet, getDataDir }

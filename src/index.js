@@ -4,6 +4,7 @@ const _ = require("lodash")
 const { lookup } = require("./lookup")
 const { complete } = require("./complete")
 const { search } = require("./search")
+const { config } = require("./config")
 
 // Assuming this is the input `enuf lookup attr<tab><tab>`
 
@@ -44,6 +45,12 @@ switch (command) {
     case "search":
         console.log(search(userArgs._.slice(1)))
         break
+
+    case "config": {
+        const configArgs = userArgs._.slice(1)
+        config(configArgs[0], configArgs[1])
+        break
+    }
 
     case "help":
     default:

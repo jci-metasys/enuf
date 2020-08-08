@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "test2": "cross-env ENUF_INCLUDE_SKIP_TEST=true mocha -g getEnums",
+    "test2": "cross-env ENUF_INCLUDE_SKIP_TEST=true mocha -g \"getEnums|complete enuf config\"",
     "lint": "eslint ."
   },
   "repository": {
