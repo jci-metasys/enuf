@@ -10,9 +10,49 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test-linux:
 
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    - run: npm run test2
+    - run: npm run lint
+
+  test-windows:
+
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    - run: npm run test2
+    - run: npm run lint
+
+  test-macos:
+
+    runs-on: macos-latest
 
     strategy:
       matrix:
