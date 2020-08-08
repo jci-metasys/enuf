@@ -18,7 +18,7 @@ const { config } = require("./config")
 // [6] attr
 
 
-const userArgs = parseArgs(process.argv.slice(2), {})
+const userArgs = parseArgs(process.argv.slice(2), { string: ["version"] })
 
 // const fs = require("fs")
 
@@ -33,7 +33,7 @@ const command = userArgs._[0]
 
 switch (command) {
     case "complete": {
-        const completeArgs = _.concat(userArgs._.slice(1,2), userArgs._.slice(3))
+        const completeArgs = _.concat(userArgs._.slice(1, 2), userArgs._.slice(3))
         console.log(complete(completeArgs), " ")
         break
     }
@@ -43,7 +43,7 @@ switch (command) {
         break
 
     case "search":
-        console.log(search(userArgs._.slice(1)))
+        console.log(search(userArgs._.slice(1), userArgs))
         break
 
     case "config": {

@@ -30,14 +30,16 @@ function uniqueValueSatisfiesEachPredicate(values, predicates) {
 
 const stringIncludesTermPredicateCaseInsensitive = term => value => value.toLowerCase().includes(_.toLower(term))
 
-function search(terms) {
+function search(terms, options) {
     if (terms.length > 3) {
         console.warn("Searching for more than 3 or 4 terms may take a long time. Type Ctrl-C to cancel.")
     }
     const predicates = _.map(terms, stringIncludesTermPredicateCaseInsensitive)
-    const enums = getEnums()
+    const enums = getEnums(options.version, options.language)
+
+    // this next line treats the display value of the set as a member for the purposes of the search
     const sets = _.filter(enums, set =>
-        uniqueValueSatisfiesEachPredicate(_.map(set.members, member => member.display), predicates))
+        uniqueValueSatisfiesEachPredicate(_.map(_.concat(set.members, set), member => member.display), predicates))
     const setNames = _.map(sets, set => set.name).sort()
     return _.join(setNames, "\n")
 }

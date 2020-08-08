@@ -11,19 +11,18 @@ const testDataDir = path.join(packageDir, "test", "data")
 function testEnvironmentVariables() {
     const originalEnv = { ...process.env }
 
-    process.env.ENUF_LANG = "en_GB"
-    try {
-        getEnums()
-        fail("Expected getEnums to throw")
-        // eslint-disable-next-line no-empty
-    } catch {
-    }
-
-    process.env.ENUF_VERSION = "test-version"
     process.env.ENUF_DATA_DIR = testDataDir
-    const fileName = path.join(testDataDir, "test-version", "en_GB_allSets.json")
-    const expected = JSON.parse(fs.readFileSync(fileName, { encoding: "utf8" }))
-    expect(getEnums()).deep.equals(expected)
+
+    // should be able to find a language pack without version
+    const gbFileName = path.join(testDataDir, "test-version", "en_GB_allSets.json")
+    const gbExpected = JSON.parse(fs.readFileSync(gbFileName, { encoding: "utf8" }))
+    expect(getEnums(undefined, "en_GB")).deep.equal(gbExpected)
+
+    // should be able to find a language pack without language code
+    // In this case the default will be en_US
+    const usFileName = path.join(testDataDir, "test-version", "en_US_allSets.json")
+    const usExpected = JSON.parse(fs.readFileSync(usFileName, { encoding: "utf8" }))
+    expect(getEnums("test-version")).deep.equal(usExpected)
 
     process.env = { ...originalEnv }
 }
@@ -34,7 +33,7 @@ function testEnvironmentVariables() {
 // of the suite.
 describe("getEnums", function () {
 
-    it("Test Env Variables", function() {
+    it("Test Get Enums", function() {
         if (process.env.ENUF_INCLUDE_SKIP_TEST) {
             testEnvironmentVariables()
         } else {
