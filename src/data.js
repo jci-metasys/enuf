@@ -3,8 +3,6 @@ const fs = require("fs")
 const _ = require("lodash")
 const os = require("os")
 
-/* global  __filename process */
-
 const defaultVersion = "8.0.0.2908"
 const defaultLang = "en_US"
 

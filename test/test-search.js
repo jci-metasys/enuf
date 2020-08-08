@@ -1,7 +1,6 @@
 const { expect } = require("chai")
 const { search } = require("../src/search")
 
-/* global context it describe */
 // cspell:ignoreWord nbinarypv nmultistate ntwostate
 
 // These tests all mimic that calling convention that the

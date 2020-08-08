@@ -5,8 +5,6 @@ const { lookup } = require("./lookup")
 const { complete } = require("./complete")
 const { search } = require("./search")
 
-/* global process */
-
 // Assuming this is the input `enuf lookup attr<tab><tab>`
 
 // The arguments to this script when invoked by enuf-completion.bash

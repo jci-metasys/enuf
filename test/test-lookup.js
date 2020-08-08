@@ -2,9 +2,8 @@ const { expect } = require("chai")
 const { lookup } = require("../src/lookup")
 const colors = require("colors/safe")
 
-/* global it context describe */
 
-// assertions don't work of colors codes are output in tables.
+// assertions don't work if colors codes are output in tables.
 colors.disable()
 
 
