@@ -293,6 +293,19 @@ attributeEnumSet.input61   3257   Input61
 
 Then when I hit return I get a table with the results. After the header row, the next row always includes information about the set itself. Then the next line includes the member I was looking for.
 
+You can even use completions with search:
+
+```bash
+> enuf search pres<tab>
+pres                 present              press-analog         pressure-brine       pressure|oil
+pres/ambient         preserve             press1               pressure-digital     pressurize
+pres/rat             preset               press2               pressure-flow        prestart
+prescale             preshutdown          pressed              pressure/flow        prestop
+presence             press                pressure             pressure|evaporator  presval
+```
+
+This shows you all the terms that start with `pres`
+
 ## Original Upper Case Names
 
 The application supports searching and returning the original upper case names.
