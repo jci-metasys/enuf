@@ -3,9 +3,6 @@ const _ = require("lodash")
 const { table, getBorderCharacters } = require("table")
 const { getEnumSet } = require("./data")
 
-/* global process */
-/* eslint-disable  */
-
 class Console {
 
     constructor() {

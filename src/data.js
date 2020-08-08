@@ -3,12 +3,14 @@ const fs = require("fs")
 const _ = require("lodash")
 const os = require("os")
 
-/* global  __filename process */
-
 const defaultVersion = "8.0.0.2908"
 const defaultLang = "en_US"
 
 function getDataDir() {
+    if (process.env.ENUF_DATA_DIR) {
+        return process.env.ENUF_DATA_DIR
+    }
+
     return os.platform() === "win32"
         ? path.join(process.env.APPDATA, "@metasys-server", "enuf", "data")
         : path.join(os.homedir(), ".@metasys-server", "enuf", "data")
@@ -21,14 +23,14 @@ function getSetsFileNameInternal(version, langCode) {
     if (version || langCode) {
         // If either is specified, then a specific file is requested.
         // Attempt to find it:
-        const setFile = path.join(dataDir, version || defaultVersion, `${langCode || defaultLang}_allEnums.json`)
+        const setFile = path.join(dataDir, version || defaultVersion, `${langCode || defaultLang}_allSets.json`)
         if (fs.existsSync(setFile)) {
             return setFile
         }
-
         // Warn that we could not find a matching file
-        console.warn(`Could not find requested data file '${setFile}'.`)
-        console.warn("Falling back to built-in default file.")
+        const error = `Could not find requested data file '${setFile}'.\n`
+            + "Falling back to built-in default file."
+        throw new Error(error)
     }
 
     // return package default file

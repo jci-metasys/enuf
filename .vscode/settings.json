@@ -4,5 +4,8 @@
         "cwelchmi",
         "enuf",
         "repos"
-    ]
+    ],
+    "files.exclude": {
+        "**/node_modules": true
+    }
 }

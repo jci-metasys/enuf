@@ -8,6 +8,19 @@
     "parserOptions": {
         "ecmaVersion": 11
     },
+    "globals": {
+        "console": "readonly",
+        "process": "readonly",
+        "__filename": "readonly",
+        "__dirname": "readonly",
+        // mocha vars
+        "describe": "readonly",
+        "context": "readonly",
+        "it": "readonly",
+        "afterEach": "readonly",
+        "beforeEach": "readonly",
+        "test": "readonly"
+    },
     "rules": {
         "indent": [
             "error",

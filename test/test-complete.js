@@ -1,8 +1,6 @@
 const { expect } = require("chai")
 const { complete } = require("../src/complete")
 
-/* global context it describe */
-
 // These tests all mimic that calling convention that the
 // enuf-completion.bash completion script invokes enuf
 // The first arg is the index of the word being invoked
