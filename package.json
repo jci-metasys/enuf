@@ -12,7 +12,8 @@
   "scripts": {
     "test": "mocha",
     "test2": "cross-env ENUF_INCLUDE_SKIP_TEST=true mocha -g \"getEnums|complete enuf config\"",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "sanity-check": "node test/sanity-check.js"
   },
   "repository": {
     "type": "git",
