@@ -15,16 +15,12 @@ const allEnums = JSON.parse(fs.readFileSync(dataFileName, { encoding: "utf8" }))
 
 // Finds duplicate member names in a set.
 function findDuplicates(set) {
-    const memberNames = _.chain(set.members)
+    const duplicates = _.chain(set.members)
         .map(member => member.name)
         .sort()
-        .value()
-
-    const adjacentNames = _.zip(memberNames, _.slice(memberNames, 1))
-
-    const duplicates = _.chain(adjacentNames)
-        .filter(([name1, name2]) => name1 === name2)
-        .map(([name1]) => name1)
+        .countBy() // groups by name, and then counts how many with each name
+        .pickBy(count => count > 1) // these are the ones that are duplicates
+        .keys()
         .value()
 
     if (duplicates.length > 0) {
