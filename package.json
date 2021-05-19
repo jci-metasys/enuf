@@ -30,7 +30,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "colors": "^1.4.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "minimist": "^1.2.5",
     "table": "^5.4.6"
   },
