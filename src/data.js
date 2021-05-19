@@ -3,8 +3,43 @@ const fs = require("fs")
 const _ = require("lodash")
 const os = require("os")
 
-const defaultVersion = "8.0.0.2908"
-const defaultLang = "en_US"
+function readConfig(option) {
+    const dataDir = getDataDir()
+    const configFile = path.join(path.dirname(dataDir), "config.json")
+
+    if (!fs.existsSync(dataDir)) {
+        return
+    }
+
+    if (!fs.existsSync(configFile)) {
+        return
+    }
+
+    const options = JSON.parse(fs.readFileSync(configFile, {encoding:"utf8"}))
+    return options[option]
+}
+
+function defaultLang() {
+    const lang = readConfig("data.language")
+    if (lang) return lang
+    return "en_US"
+}
+
+/**
+ * Returns the version with the highest value
+ * checks config file, if not found it just sorts
+ * the directories and returns the largest value
+ */
+function defaultVersion() {
+    const version = readConfig("data.version")
+    if (version) return _.toString(version)
+    return _.chain(fs.readdirSync(getDataDir(), { withFileTypes: true }))
+        .filter(dirEnt => dirEnt.isDirectory())
+        .map(dirEnt => dirEnt.name)
+        .sort()
+        .last()
+        .value()
+}
 
 function getDataDir() {
     if (process.env.ENUF_DATA_DIR) {
@@ -23,7 +58,7 @@ function getSetsFileNameInternal(version, langCode) {
     if (version || langCode) {
         // If either is specified, then a specific file is requested.
         // Attempt to find it:
-        const setFile = path.join(dataDir, version || defaultVersion, `${langCode || defaultLang}_allSets.json`)
+        const setFile = path.join(dataDir, version || defaultVersion(), `${langCode || defaultLang()}_allSets.json`)
         if (fs.existsSync(setFile)) {
             return setFile
         }
@@ -51,7 +86,9 @@ function getEnumsInternal(version, langCode) {
     return JSON.parse(fs.readFileSync(allSetsFile), { encoding: "utf8" })
 }
 
-const getEnums = _.memoize(getEnumsInternal)
+const getEnums = _.memoize(getEnumsInternal, (...args) => {
+    return args.join(" ")
+})
 
 function getEnumSetInternal(setArg, version, langCode) {
     const enums = getEnums(version, langCode)
@@ -60,6 +97,8 @@ function getEnumSetInternal(setArg, version, langCode) {
     )
 }
 
-const getEnumSet = _.memoize(getEnumSetInternal)
+const getEnumSet = _.memoize(getEnumSetInternal, (...args) => {
+    return args.join(" ")
+})
 
 module.exports = { getEnums, getEnumSet, getDataDir }

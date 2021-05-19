@@ -47,8 +47,8 @@
         },
         {
             "name": "Launch Main",
-            "program": "${workspaceFolder}/index.js",
-            "args": ["search", "inactive", "active"],
+            "program": "${workspaceFolder}/src/index.js",
+            "args": ["search", "--language=en_GB", "--version=8.1", "colour"],
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -63,7 +63,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/src/config.js"
+            "program": "${workspaceFolder}/src/search.js"
         }
     ]
 }
