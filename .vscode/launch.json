@@ -15,12 +15,12 @@
         },
         {
             "name": "Launch Lookup",
-            "program": "${workspaceFolder}/index.js",
+            "program": "${workspaceFolder}/src/index.js",
             "request": "launch",
             "env": {
                 "ENUF_LANG": "ja_JP"
             },
-            "args": ["lookup", "attributeEnumSet", "presentValue"],
+            "args": ["lookup", "reliabilityEnumSet", "10"],
             "skipFiles": [
                 "<node_internals>/**"
             ],

@@ -42,7 +42,7 @@ const tableConfig = {
             alignment: "right"
         },
         3: {
-            width: 25,
+            width: 45,
             wrapWord: true
         }
     }
