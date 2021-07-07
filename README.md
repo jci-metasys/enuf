@@ -18,28 +18,16 @@ The completion scripts are written for bash. The program will still work fine if
 
 ## Installation
 
-If you have [jci-gen4-npm-v](https://ses-artifactory.go.johnsoncontrols.com/artifactory/api/npm/jci-gen4-npm-v/) setup as your default registry you can just install directly using npm
+Add an entry to your npm config to be able to install packages from GitHub Packages.
 
 ```bash
-npm install -g enuf
+npm config set @metasys-server:registry=https://npm.pkg.github.com
 ```
 
-**Recommended Approach:** Otherwise you can use this lengthier version.
+Then install the package.
 
 ```bash
-npm install -g enuf --registry=https://ses-artifactory.go.johnsoncontrols.com/artifactory/api/npm/jci-gen4-npm-v/
-```
-
-You can also install directly from GitHub Enterprise. First find the latest version by looking at the [releases](https://github.jci.com/cwelchmi/enuf/releases). For example, at the time of writing the latest version was v0.4.3
-
-```bash
-npm install -g git+https://github.jci.com/cwelchmi/enuf.git#v0.4.3
-```
-
-**For the brave:** Install directly from `main`:
-
-```bash
-npm install -g git+https://github.jci.com/cwelchmi/enuf
+npm install -g @metasys-server/enuf
 ```
 
 ## Features
@@ -92,7 +80,7 @@ See [help](./help/enuf.md) for detailed help
 
 #### Searching
 
-Let's say I want to find all the sets with a member that contains "active" and a differnt member that contains "inactive". (Notice that active can match inactive, our search will look for unique members.)
+Let's say I want to find all the sets with a member that contains "active" and a different member that contains "inactive". (Notice that active can match inactive, our search will look for unique members.)
 
 ```bash
 > enuf search active inactive
