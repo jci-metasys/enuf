@@ -10,30 +10,30 @@ colors.disable()
 // The ${""} are only used to keep VS Code from trimming trailing white space
 const bosetupEnumSetString =
 `
-Name                NAME                 Id   Description                 ${""}
-bosetupEnumSet      BOSETUP_ENUM_SET      2   BO Setup                    ${""}
-                                                                          ${""}
-Name                NAME                 Id   Description                 ${""}
-bosetupMomentary    BOSETUP_MOMENTARY     0   Momentary                   ${""}
-bosetupMaintained   BOSETUP_MAINTAINED    1   Maintained                  ${""}
-bosetupPulse        BOSETUP_PULSE         2   Pulse                       ${""}
+Name                NAME                 Id   Description                                     ${""}
+bosetupEnumSet      BOSETUP_ENUM_SET      2   BO Setup                                        ${""}
+                                                                                              ${""}
+Name                NAME                 Id   Description                                     ${""}
+bosetupMomentary    BOSETUP_MOMENTARY     0   Momentary                                       ${""}
+bosetupMaintained   BOSETUP_MAINTAINED    1   Maintained                                      ${""}
+bosetupPulse        BOSETUP_PULSE         2   Pulse                                           ${""}
 bosetupStartStop    BOSETUP_START_STOP    3   Start Stop`
 
 const bosetupEnumSet_bosetupPulseString =
 `
-Name             NAME               Id   Description                 ${""}
-bosetupEnumSet   BOSETUP_ENUM_SET    2   BO Setup                    ${""}
-                                                                     ${""}
-Name             NAME               Id   Description                 ${""}
+Name             NAME               Id   Description                                     ${""}
+bosetupEnumSet   BOSETUP_ENUM_SET    2   BO Setup                                        ${""}
+                                                                                         ${""}
+Name             NAME               Id   Description                                     ${""}
 bosetupPulse     BOSETUP_PULSE       2   Pulse`
 
 const bosetupEnumSet_bosetupPulse_bosetupStartStop =
 `
-Name               NAME                 Id   Description                 ${""}
-bosetupEnumSet     BOSETUP_ENUM_SET      2   BO Setup                    ${""}
-                                                                         ${""}
-Name               NAME                 Id   Description                 ${""}
-bosetupPulse       BOSETUP_PULSE         2   Pulse                       ${""}
+Name               NAME                 Id   Description                                     ${""}
+bosetupEnumSet     BOSETUP_ENUM_SET      2   BO Setup                                        ${""}
+                                                                                             ${""}
+Name               NAME                 Id   Description                                     ${""}
+bosetupPulse       BOSETUP_PULSE         2   Pulse                                           ${""}
 bosetupStartStop   BOSETUP_START_STOP    3   Start Stop`
 
 describe("lookup", () => {
