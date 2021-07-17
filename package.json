@@ -1,9 +1,6 @@
 {
-  "name": "@metasys-server/enuf",
+  "name": "@metasys/enuf",
   "version": "0.4.8",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "description": "A command line tool for querying Metasys enums",
   "main": "index.js",
   "bin": {
