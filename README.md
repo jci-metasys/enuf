@@ -20,14 +20,10 @@ The completion scripts are written for bash. The program will still work fine if
 
 Add an entry to your npm config to be able to install packages from GitHub Packages.
 
-```bash
-npm config set @metasys-server:registry=https://npm.pkg.github.com
-```
-
 Then install the package.
 
 ```bash
-npm install -g @metasys-server/enuf
+npm install -g @metasys/enuf
 ```
 
 ## Features
