@@ -205,11 +205,8 @@ Follow the instructions for creating the `enuf-completion.bash` file from previo
 
 Then in your `.oh-my-zsh/oh-my-zsh.sh` file find this line
 
-```zsh
-autoload -U compaudit compinit
-```
-
-Add the following lines right after it
+Add the following lines at the end of the file. (We add them at the end of the file
+to ensure that `compinit` is running before we attempt to run these instructions).
 
 ```zsh
 autoload -U +X bashcompinit && bashcompinit
