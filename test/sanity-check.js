@@ -40,6 +40,29 @@ _.forEach(allEnums, enumSet => {
 })
 
 if (!noDuplicates) {
+
+    // Fix duplicates the way production does by appending `_{numeric id}`
+    _.forEach(allEnums, enumSet => {
+        const duplicates = findDuplicates(enumSet)
+        if (duplicates) {
+
+            _.forEach(duplicates, name => {
+                const membersWithName = _.filter(enumSet.members, member => member.name === name)
+                _.forEach(membersWithName, member => {
+                    member.name = `${member.name}_${member.id}`
+                })
+            })
+        }
+    })
+    const repairedFileName = path.join(parentDir, "data", "_allSets.no-duplicates.json")
+    fs.writeFileSync(repairedFileName, JSON.stringify(allEnums, null, 2))
+    console.log(`A version with no duplicates has been created at ${repairedFileName}`)
+}
+
+
+
+
+if (!noDuplicates) {
     // A non zero exit code indicates error.
     process.exit(1)
 }
