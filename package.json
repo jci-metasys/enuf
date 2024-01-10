@@ -1,6 +1,6 @@
 {
   "name": "@metasys/enuf",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "A command line tool for querying Metasys enums",
   "main": "index.js",
   "bin": {
