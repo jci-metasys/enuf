@@ -186,10 +186,10 @@ To do that copy the completions file `enuf-completion-bash` to a location in you
 ```bash
 > cd ~
 > mkdir .completions
-> chdir .completions
+> cd .completions
 ```
 
-The file `enuf-completion.bash` is stored somewhere in your `node.js` configuration files. The easiest way to get it is to just grab it from the repo [here](https://github.jci.com/cwelchmi/enuf/blob/main/enuf-completion.bash). You can copy and paste the contents of that file into a new file. Save it to the directory you just created with the name `enuf-completion.bash`.
+The file `enuf-completion.bash` is stored somewhere in your `node.js` configuration files. The easiest way to get it is to just grab it from the repo [here](https://github.com/jci-metasys/enuf/blob/main/enuf-completion.bash). You can copy and paste the contents of that file into a new file. Save it to the directory you just created with the name `enuf-completion.bash`.
 
 Finally edit your `.bashrc` file and add this line at the end. (This should be in your home directory. If it isn't it's safe to create it. If you are using `.profile` instead of `.bashrc` you can add the line there instead)
 
