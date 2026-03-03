@@ -21,6 +21,7 @@ multistateEnumSet
 objectStatusEnumSet
 ssboPresentValueEnumSet
 statusEnumSet
+stdCompNameEnumSet
 totalizeStatusEnumSet
 triggerPresentValueEnumSet
 twostateEnumSet`
@@ -34,7 +35,7 @@ describe("search", () => {
     })
 
     context("Search for active inactive hold", () => {
-        it("returns 7 sets", () => {
+        it(`returns ${searchForActiveInactiveResult.split("\n").length} sets`, () => {
             expect(search(["active", "inactive"]))
                 .is.equal(searchForActiveInactiveResult)
         })
